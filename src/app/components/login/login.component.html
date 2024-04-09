@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="outer">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3 mx-auto">
+                <div class="panel border bg-white">
+                    <div class="panel-body p-5 pb-12">
+                        <div class="panel-heading pt-2">
+                            <img src="assets/images/AMMA (Pink).png" alt="Logo" class="logo" />
+                        </div>
+                        <form [formGroup]="loginForm">
+                            <div class="form-group pt-3">
+                                <div class="input-field" [class.error]="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">
+                                    <input formControlName="email" type="text" class="form-control" id="email" placeholder="email" required>
+                                </div>
+                            </div>
+                            <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">*Email is required</small>
+                            <div class="form-group pt-3">
+                                <div class="input-field" [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">
+                                    <input formControlName="password" [type]="type" class="form-control" id="password" placeholder="password" required>
+                                    <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
+                                </div>
+                            </div>
+                            <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">*Password is required</small>
+                            <div class="form-inline fr mt-4">
+                                <a id="forget" class="font-weight-bold" href="#">Forget Password?</a>
+                            </div>
+                            <button (click)="onSubmit()" type="submit" class="btn btn-submit mt-4 w-100">Login</button>
+                            <div class="text-center mt-4">
+                                <span>Don't have an account?</span>
+                                <a routerLink="/signup" class="font-weight-bold">Sign Up</a>
+                            </div>
+                        </form>  
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,1 +1,70 @@
-<p>signup works!</p>
+<div class="outer">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3 mx-auto">
+                <div class="panel border bg-white">
+                    <div class="panel-body p-5 pb-12">
+                        <div class="panel-heading pt-2">
+                            <img src="assets/images/AMMA (Pink).png" alt="Logo" class="logo" />
+                        </div>
+                        <form [formGroup]="signupForm">
+                            <div class="form-group pt-2">
+                                <div class="input-field" [class.error]="signupForm.controls['name'].dirty && signupForm.hasError('required','name')">
+                                    <input formControlName="name" type="text" class="form-control" id="name" placeholder="name" required>
+                                </div>
+                            </div>
+                            <small *ngIf="signupForm.controls['name'].dirty && signupForm.hasError('required','name')" class="text-danger">*Name is required</small>
+                            <div class="form-group pt-2">
+                                <div class="input-field" [class.error]="signupForm.controls['age'].dirty && signupForm.hasError('required','age')">
+                                    <input formControlName="age" type="number" class="form-control" id="age" placeholder="age" required>
+                                </div>
+                            </div>
+                            <small *ngIf="signupForm.controls['age'].dirty && signupForm.hasError('required','age')" class="text-danger">*Age is required</small>
+                            <div class="form-group pt-2">
+                                <div class="input-field" [class.error]="signupForm.controls['gender'].dirty && signupForm.hasError('required','gender')">
+                                    <select formControlName="gender" id="gender" class="form-control" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <small *ngIf="signupForm.controls['gender'].dirty && signupForm.hasError('required', 'gender')" class="text-danger">*Gender is required</small>
+                            </div>
+                            <div class="form-group pt-2">
+                                <div class="input-field" [class.error]="signupForm.controls['contactNumber'].dirty && signupForm.hasError('required','contactNumber')">
+                                    <input formControlName="contactNumber" type="text" class="form-control" id="contactNumber" placeholder="contactNumber" required>
+                                </div>
+                            </div>
+                            <small *ngIf="signupForm.controls['contactNumber'].dirty && signupForm.hasError('required','contactNumber')" class="text-danger">*Contact Number is required</small>
+                            <div class="form-group pt-2">
+                                <div class="input-field" [class.error]="signupForm.controls['email'].dirty && signupForm.hasError('required','email')">
+                                    <input formControlName="email" type="text" class="form-control" id="email" placeholder="email" required>
+                                </div>
+                            </div>
+                            <small *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('required','email')" class="text-danger">*Email is required</small>
+                            <div class="form-group pt-2">
+                                <div class="input-field" [class.error]="signupForm.controls['password'].dirty && signupForm.hasError('required','password')">
+                                    <input formControlName="password" [type]="type" class="form-control" id="password" placeholder="password" required>
+                                    <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
+                                </div>
+                            </div>
+                            <small *ngIf="signupForm.controls['password'].dirty && signupForm.hasError('required','password')" class="text-danger">*Password is required</small>
+                            <input type="hidden" formControlName="userId" id="userId" value="">
+                            <input type="hidden" formControlName="role" id="role" value="user">
+                            <input type="hidden" formControlName="token" id="token" value="">
+                            <div class="form-inline fr mt-4">
+                                <a id="forget" class="font-weight-bold" href="#">Forget Password?</a>
+                            </div>
+                            <button (click)="onSubmit()" type="submit" class="btn btn-submit mt-4 w-100">Sign Up</button>
+                            <div class="text-center mt-4">
+                                <span>Have an account?</span>
+                                <a routerLink="/login" class="font-weight-bold">Login</a>
+                            </div>
+                        </form>  
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
