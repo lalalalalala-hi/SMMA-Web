@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private toast: NgToastService
   ) {}
 
   ngOnInit(): void {
@@ -44,18 +46,23 @@ export class LoginComponent implements OnInit {
       console.log(this.loginForm.value);
       this.auth.login(this.loginForm.value).subscribe(
         (res: any) => {
-          console.log(res);
-          alert(res.message);
           this.loginForm.reset();
+          this.toast.success({
+            detail: 'SUCCESS',
+            summary: res.message,
+            duration: 5000,
+          });
           this.router.navigate(['dashboard']);
         },
         (err) => {
-          console.log(err);
-          alert(err.error.message);
+          this.toast.error({
+            detail: 'ERROR',
+            summary: "Something's wrong",
+            duration: 5000,
+          });
         }
       );
     } else {
-      console.log('Invalid form');
       ValidateForm.validateAllFormFields(this.loginForm);
       alert('Your form is invalid, please check again!');
     }

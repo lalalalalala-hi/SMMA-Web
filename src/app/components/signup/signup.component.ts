@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -23,7 +24,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private toast: NgToastService
   ) {}
 
   ngOnInit(): void {
@@ -50,14 +52,20 @@ export class SignupComponent implements OnInit {
     if (this.signupForm.valid) {
       this.auth.signup(this.signupForm.value).subscribe(
         (res: any) => {
-          console.log(res);
-          alert(res.message);
+          this.toast.success({
+            detail: 'SUCCESS',
+            summary: res.message,
+            duration: 5000,
+          });
           this.signupForm.reset();
           this.router.navigate(['login']);
         },
         (err) => {
-          console.log(err);
-          alert(err.error.message);
+          this.toast.error({
+            detail: 'ERROR',
+            summary: "Something's wrong",
+            duration: 5000,
+          });
         }
       );
     } else {
