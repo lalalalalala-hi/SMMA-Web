@@ -1,5 +1,5 @@
 .outer{
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(to top, #f9dcf2 5%, #C82C8C 100%) no-repeat;
 }
 
@@ -41,6 +41,7 @@ a:hover{
     min-height: 380px;
     border-radius: 12px;
     margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 .input-field{
