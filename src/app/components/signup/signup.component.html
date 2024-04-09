@@ -38,11 +38,12 @@
                             </div>
                             <small *ngIf="signupForm.controls['contactNumber'].dirty && signupForm.hasError('required','contactNumber')" class="text-danger">*Contact Number is required</small>
                             <div class="form-group pt-2">
-                                <div class="input-field" [class.error]="signupForm.controls['email'].dirty && signupForm.hasError('required','email')">
+                                <div class="input-field" [class.error]="(signupForm.controls['email'].dirty && signupForm.hasError('required','email')) || (signupForm.controls['email'].dirty && signupForm.hasError('email','email')) ">
                                     <input formControlName="email" type="text" class="form-control" id="email" placeholder="email" required>
                                 </div>
                             </div>
                             <small *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('required','email')" class="text-danger">*Email is required</small>
+                            <small *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('email','email')" class="text-danger">*Invalid email format</small>
                             <div class="form-group pt-2">
                                 <div class="input-field" [class.error]="signupForm.controls['password'].dirty && signupForm.hasError('required','password')">
                                     <input formControlName="password" [type]="type" class="form-control" id="password" placeholder="password" required>
