@@ -1,1 +1,70 @@
-<p>dashboard works!</p>
+<app-navbar></app-navbar>
+<div class="container-fuild">
+  <h3>Performance</h3>
+  <div class="row text-center">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">500</h2>
+          <p class="card-text">downloads</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">500</h2>
+          <p class="card-text">active users</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">500</h2>
+          <p class="card-text">stores</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">500</h2>
+          <p class="card-text">promotions</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">500</h2>
+          <p class="card-text">events</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <h3>Statistics</h3>
+  <div class="row text-center">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">500</h2>
+          <p class="card-text">downloads</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">500</h2>
+          <p class="card-text">active users</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h3>Table</h3>
+  <ul *ngFor="let user of users">
+  <li>{{ user.name }}</li>
+</ul>
+</div>

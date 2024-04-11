@@ -1,1 +1,32 @@
-<p>navbar works!</p>
+<nav class="navbar navbar-expand-sm navbar-light justify-content-center">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/dashboard">
+      <img src="assets/images/AMMA.png" alt="AMMA Logo"> 
+    </a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" href="/dashboard"> HOME</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">STORE</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">PROMOTION</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">EVENT</a>
+      </li>
+    </ul>
+    <div class="dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">          
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>Username</span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Link 1</a></li>
+        <li><a class="dropdown-item" href="#">Link 2</a></li>
+        <li><a class="dropdown-item" (click)="logout()">Log out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

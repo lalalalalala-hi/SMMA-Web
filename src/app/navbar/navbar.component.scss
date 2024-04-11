@@ -1,0 +1,30 @@
+nav {
+    background-color: #C82C8C;
+}
+
+.nav-link {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    color: rgb(224, 218, 218);
+}
+
+.navbar-nav .nav-link.active{
+    color: white;
+}
+
+img{
+    width: 60px;
+    margin-left: 20px;
+}
+
+.user-bar{
+    margin-right: 20px;
+    color: white;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.fa-user{
+    color: white;
+    padding-right: 15px
+}
