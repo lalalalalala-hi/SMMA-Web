@@ -1,0 +1,61 @@
+.container-fuild{
+    min-height: 100vh;
+    padding: 20px 50px 50px 50px;
+    background-color: rgb(248, 244, 244);
+}
+
+.title-text{
+    color: #C82C8C;
+    font-weight: bold;
+}
+
+.card{
+    border: none;
+    margin-bottom: 30px;
+}
+
+.card-body{
+    color:  #C82C8C;
+        padding: 20px;
+
+}
+
+h3{
+    color: #9E9292;
+}
+
+h2, h3{
+    margin: 0;
+}
+
+.table-h3{
+    color: black;
+    font-weight: bold;
+    padding : 15px;
+}
+
+#pieCanvas, #barCanvas, #bar2Canvas, #doughnutCanvas, #lineCanvas{
+    width: 100%;
+    height: 400px !important;
+}
+
+#barBigCanvas{
+    width: 100%;
+    height: 600px !important;
+}
+
+.right-span {
+    position: absolute;
+    right: 0;
+    margin-right: 30px;
+}
+
+.fa.fa-map{
+    font-size: 14px;
+    padding-right: 10px;
+}
+
+.fa.fa-phone-square{
+    font-size: 16px;
+    padding-right: 10px;
+}

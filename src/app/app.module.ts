@@ -14,12 +14,13 @@ import {
   HttpClient,
   HttpClientModule,
 } from '@angular/common/http';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardComponent } from './components/statistics/dashboard/dashboard.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { StoreManagementComponent } from './components/store-management/store-management.component';
-import { PromotionManagementComponent } from './components/promotion-management/promotion-management.component';
-import { EventManagementComponent } from './components/event-management/event-management.component';
+import { UserStatisticsComponent } from './components/statistics/user-statistics/user-statistics.component';
+import { RouteStatisticsComponent } from './components/statistics/route-statistics/route-statistics.component';
+import { StorelistStatisticsComponent } from './components/statistics/storelist-statistics/storelist-statistics.component';
+import { StoreStatisticsComponent } from './components/statistics/store-statistics/store-statistics.component';
 
 @NgModule({
   declarations: [
@@ -28,9 +29,10 @@ import { EventManagementComponent } from './components/event-management/event-ma
     LoginComponent,
     SignupComponent,
     DashboardComponent,
-    StoreManagementComponent,
-    PromotionManagementComponent,
-    EventManagementComponent,
+    UserStatisticsComponent,
+    RouteStatisticsComponent,
+    StoreStatisticsComponent,
+    StorelistStatisticsComponent,
   ],
   imports: [
     BrowserModule,
