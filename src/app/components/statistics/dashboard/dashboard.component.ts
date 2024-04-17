@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { NgToastService } from 'ng-angular-popup';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserStoreService } from 'src/app/services/user-store.service';
-import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-dashboard',

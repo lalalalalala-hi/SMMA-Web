@@ -1,0 +1,40 @@
+
+.btn{
+    background-color: #C82C8C;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    width: 100px;
+    height: 40px;
+}
+
+.btn:hover{
+    background-color: #9E9292;
+}
+
+.btn:active{
+    background-color: #ccc9c9;
+    color: white;
+}
+
+.fa.fa-eye{
+    padding-right: 15px;
+}
+
+.fa.fa-trash-o{
+    padding-right: 15px;
+}
+
+.fa.fa-pencil-square-o{
+    padding-right: 0px;
+}
+
+.card-body{
+    color:  Black;
+    padding: 40px;
+}
+
+.body-pink{
+    color: #C82C8C;
+}

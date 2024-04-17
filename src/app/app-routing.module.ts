@@ -8,6 +8,10 @@ import { UserStatisticsComponent } from './components/statistics/user-statistics
 import { RouteStatisticsComponent } from './components/statistics/route-statistics/route-statistics.component';
 import { StorelistStatisticsComponent } from './components/statistics/storelist-statistics/storelist-statistics.component';
 import { StoreStatisticsComponent } from './components/statistics/store-statistics/store-statistics.component';
+import { StoreListComponent } from './components/store/store-list/store-list.component';
+import { AddStoreComponent } from './components/store/add-store/add-store.component';
+import { EditStoreComponent } from './components/store/edit-store/edit-store.component';
+import { ViewStoreComponent } from './components/store/view-store/view-store.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -36,6 +40,26 @@ const routes: Routes = [
   {
     path: 'storelist-statistics',
     component: StorelistStatisticsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'add-store',
+    component: AddStoreComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'edit-store',
+    component: EditStoreComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'store-list',
+    component: StoreListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'view-store',
+    component: ViewStoreComponent,
     canActivate: [AuthGuard],
   },
 ];

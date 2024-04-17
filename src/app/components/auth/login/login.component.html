@@ -10,14 +10,14 @@
                         <form [formGroup]="loginForm">
                             <div class="form-group pt-3">
                                 <div class="input-field" [class.error]="(loginForm.controls['email'].dirty && loginForm.hasError('required','email')) || (loginForm.controls['email'].dirty && loginForm.hasError('email','email')) ">
-                                    <input formControlName="email" type="text" class="form-control" id="email" placeholder="email" required>
+                                    <input formControlName="email" type="text" class="form-control no-boader" id="email" placeholder="email" required>
                                 </div>
                             </div>
                             <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">*Email is required</small>
                             <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('email','email')" class="text-danger">*Invalid email format</small>
                             <div class="form-group pt-3">
                                 <div class="input-field" [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">
-                                    <input formControlName="password" [type]="type" class="form-control" id="password" placeholder="password" required>
+                                    <input formControlName="password" [type]="type" class="form-control no-boader" id="password" placeholder="password" required>
                                     <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
                                 </div>
                             </div>

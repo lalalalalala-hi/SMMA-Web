@@ -4,7 +4,7 @@ import {
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 import { NgToastService } from 'ng-angular-popup';
 import { Injectable } from '@angular/core';
 

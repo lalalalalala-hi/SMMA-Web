@@ -1,1 +1,40 @@
-<p>store-list works!</p>
+<app-navbar></app-navbar>
+<div class="container-fuild">
+  <h1 class="title-text text-center">STORE</h1>
+  <div class="row text-center">
+    <div class="btn-container mb-3">
+        <button class="btn float-end" onclick="window.location.href='/add-store'"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    </div>
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Contact Number</th>
+                <th>Opening Hours</th>
+                <th>Closing Hours</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>Image</td>
+                <td>Category</td>
+                <td>Location</td>
+                <td>Contact Number</td>
+                <td>Opening Hours</td>
+                <td>Closing Hours</td>
+                <td>
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

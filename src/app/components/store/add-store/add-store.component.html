@@ -1,1 +1,60 @@
-<p>add-store works!</p>
+<app-navbar></app-navbar>
+<div class="container-fuild">
+  <h1 class="title-text text-center">STORE</h1>
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-body">
+            <h2 class="pb-4">Add Store Form</h2>
+            <form [formGroup]="addStoreForm">
+              <div class="form-group">
+                  <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" formControlName="name">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input class="form-control" type="file" formControlName="image" accept="image/*">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" formControlName="category">
+                        <option value="" disabled selected>Select Category</option>
+                        <option *ngFor="let category of categories" value="{{category.categoryId}}">{{category.categoryName}}</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Floor</label>
+                    <select class="form-select" formControlName="floor">
+                        <option value="" disabled selected>Select Floor</option>
+                        <option *ngFor="let floor of floors" value="{{floor.floorId}}">{{floor.floorName}}</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Location <small class="small-text">Ex: LG12, LG13</small></label>
+                    <input class="form-control" type="text" formControlName="location">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" formControlName="description"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Contact Number</label>
+                    <input type="text" class="form-control" formControlName="contactNumber">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Opening Time</label>
+                    <input type="time" class="form-control" formControlName="openingTime">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Closing Time</label>
+                    <input type="time" class="form-control" formControlName="closingTime">
+                  </div>
+                  <button  (click)="onSubmit()" type="submit" class="btn btn-submit mt-4 w-100">Submit</button>
+
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>

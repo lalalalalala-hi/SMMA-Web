@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { AuthService } from '../services/auth.service';
+import { UserService } from '../../services/user/user.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { NgToastService } from 'ng-angular-popup';
-import { UserStoreService } from '../services/user-store.service';
+import { UserStoreService } from '../../services/user-store.service';
 
 @Component({
   selector: 'app-navbar',
