@@ -6,7 +6,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">500</h2>
+          <h2 class="card-title">{{getNumberOfUser()}}</h2>
           <p class="card-text">users</p>
         </div>
       </div>
@@ -14,7 +14,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">500</h2>
+          <h2 class="card-title">300</h2>
           <p class="card-text">daily active users</p>
         </div>
       </div>
@@ -68,20 +68,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>john.com</td>
-              </tr>
-              <tr>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary.com</td>
-              </tr>
-              <tr>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>july.com</td>
+              <tr *ngFor="let user of users">
+                <td>{{user.userId}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.age}}</td>
+                <td>{{user.gender}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.contactNumber}}</td>
               </tr>
             </tbody>
           </table>

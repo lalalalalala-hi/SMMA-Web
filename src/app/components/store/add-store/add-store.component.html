@@ -18,14 +18,14 @@
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Category</label>
-                    <select class="form-select" formControlName="category">
+                    <select class="form-select" formControlName="categoryId">
                         <option value="" disabled selected>Select Category</option>
                         <option *ngFor="let category of categories" value="{{category.categoryId}}">{{category.categoryName}}</option>
                       </select>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Floor</label>
-                    <select class="form-select" formControlName="floor">
+                    <select class="form-select" formControlName="floorId">
                         <option value="" disabled selected>Select Floor</option>
                         <option *ngFor="let floor of floors" value="{{floor.floorId}}">{{floor.floorName}}</option>
                       </select>

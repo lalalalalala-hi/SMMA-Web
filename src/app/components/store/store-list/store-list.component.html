@@ -14,24 +14,26 @@
                 <th>Category</th>
                 <th>Location</th>
                 <th>Contact Number</th>
+                <th>Description</th>
                 <th>Opening Hours</th>
                 <th>Closing Hours</th>
-                <th>Action</th>
+                <th style="width: 100px;">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Name</td>
-                <td>Image</td>
-                <td>Category</td>
-                <td>Location</td>
-                <td>Contact Number</td>
-                <td>Opening Hours</td>
-                <td>Closing Hours</td>
+              <tr *ngFor="let store of stores">
+                <td>{{store.name}}</td>
+                <td>{{store.image}}</td>
+                <td>{{getCategoryName(store.categoryId)}}</td>
+                <td>{{store.location}}</td>
+                <td>{{store.contactNumber}}</td>
+                <td>{{store.description}}</td>
+                <td>{{store.openingTime}}</td>
+                <td>{{store.closingTime}}</td>
                 <td>
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <a href="/view-store&storeId=storeId"><i class="fa fa-eye" aria-hidden="true"></i></a>
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true" (click)="deleteStore(store.storeId)"></i>
                 </td>
               </tr>
             </tbody>

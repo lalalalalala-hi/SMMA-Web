@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { StoreService } from 'src/app/services/store/store.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -10,23 +11,58 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  public users: any = [];
+  users: any[] = [];
+  public stores: any = [];
   pieInfo: any = [];
   barInfo: any = [];
+  age1: any = 0;
+  age2: any = 0;
+  age3: any = 0;
+  age4: any = 0;
+  age5: any = 0;
+  age6: any = 0;
+  public data: any = [];
+  data2: any = [];
 
   constructor(
     private auth: AuthService,
     private user: UserService,
+    private store: StoreService,
     private toast: NgToastService
   ) {}
 
   ngOnInit() {
+    this.initialize();
+  }
+
+  initialize() {
     this.user.getAllUsers().subscribe((res: any) => {
       this.users = res;
+
+      const age1 = res.filter((u: any) => u.age >= 1 && u.age <= 10).length;
+      const age2 = res.filter((u: any) => u.age >= 11 && u.age <= 20).length;
+      const age3 = res.filter((u: any) => u.age >= 21 && u.age <= 30).length;
+      const age4 = res.filter((u: any) => u.age >= 31 && u.age <= 40).length;
+      const age5 = res.filter((u: any) => u.age >= 41 && u.age <= 50).length;
+      const age6 = res.filter((u: any) => u.age >= 51 && u.age <= 60).length;
+      const age7 = res.filter((u: any) => u.age >= 61 && u.age <= 70).length;
+      const age8 = res.filter((u: any) => u.age >= 71 && u.age <= 80).length;
+      this.pieChart([age1, age2, age3, age4, age5, age6, age7, age8]);
+
+      this.barChart([1, 2, 3, 4, 5, 6, 7, 8]);
     });
 
-    this.pieChart();
-    this.barChart();
+    this.store.getAllStores().subscribe((res: any) => {
+      this.stores = res;
+    });
+  }
+
+  getUserNumber() {
+    return this.users.length;
+  }
+
+  getStoreNumber() {
+    return this.stores.length;
   }
 
   logout() {
@@ -38,15 +74,24 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  pieChart() {
+  pieChart(data: number[]) {
     this.pieInfo = new Chart('pieCanvas', {
       type: 'pie',
       data: {
-        labels: ['10-20', '21-30', '31-40', '41-50', '51-60', '61-70'],
+        labels: [
+          '1-10',
+          '10-20',
+          '21-30',
+          '31-40',
+          '41-50',
+          '51-60',
+          '61-70',
+          '71-80',
+        ],
         datasets: [
           {
             label: 'Number of users',
-            data: [12, 19, 3, 5, 2, 3],
+            data: data,
             borderWidth: 1,
           },
         ],
@@ -70,7 +115,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  barChart() {
+  barChart(data: number[]) {
     this.barInfo = new Chart('barCanvas', {
       type: 'bar',
       data: {
@@ -78,7 +123,7 @@ export class DashboardComponent implements OnInit {
         datasets: [
           {
             label: 'Number of destinations',
-            data: [12, 19, 3, 5, 2, 3],
+            data: data,
             borderWidth: 1,
           },
         ],

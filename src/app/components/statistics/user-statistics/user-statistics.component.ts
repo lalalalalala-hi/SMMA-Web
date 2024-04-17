@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-user-statistics',
@@ -7,16 +8,42 @@ import Chart from 'chart.js/auto';
   styleUrl: './user-statistics.component.scss',
 })
 export class UserStatisticsComponent implements OnInit {
+  users: any[] = [];
   title = 'ng-chart';
   doughnutInfo: any = [];
   lineInfo: any = [];
 
+  constructor(private user: UserService) {}
+
   ngOnInit() {
-    this.doughnutChart();
-    this.lineChart();
+    this.initialize();
   }
 
-  doughnutChart() {
+  initialize() {
+    this.user.getAllUsers().subscribe((res: any) => {
+      this.users = res;
+      const maleCOunt = res.filter((u: any) => u.gender === 'male').length;
+      const femaleCount = res.filter((u: any) => u.gender === 'female').length;
+      this.doughnutChart([femaleCount, maleCOunt]);
+
+      const age1 = res.filter((u: any) => u.age >= 1 && u.age <= 10).length;
+      const age2 = res.filter((u: any) => u.age >= 11 && u.age <= 20).length;
+      const age3 = res.filter((u: any) => u.age >= 21 && u.age <= 30).length;
+      const age4 = res.filter((u: any) => u.age >= 31 && u.age <= 40).length;
+      const age5 = res.filter((u: any) => u.age >= 41 && u.age <= 50).length;
+      const age6 = res.filter((u: any) => u.age >= 51 && u.age <= 60).length;
+      const age7 = res.filter((u: any) => u.age >= 61 && u.age <= 70).length;
+      const age8 = res.filter((u: any) => u.age >= 71 && u.age <= 80).length;
+      this.lineChart([age1, age2, age3, age4, age5, age6, age7, age8]);
+    });
+  }
+
+  // calculate number of user
+  getNumberOfUser() {
+    return this.users.length;
+  }
+
+  doughnutChart(data: number[]) {
     this.doughnutInfo = new Chart('doughnutCanvas', {
       type: 'doughnut',
       data: {
@@ -24,7 +51,7 @@ export class UserStatisticsComponent implements OnInit {
         datasets: [
           {
             label: 'Number of users',
-            data: [300, 224],
+            data: data,
             backgroundColor: ['red', 'blue'],
             hoverOffset: 4,
           },
@@ -45,11 +72,10 @@ export class UserStatisticsComponent implements OnInit {
     });
   }
 
-  lineChart() {
+  lineChart(data: number[]) {
     this.lineInfo = new Chart('lineCanvas', {
       type: 'line',
       data: {
-        // values on X-Axis
         labels: [
           '1-10',
           '11-20',
@@ -63,7 +89,7 @@ export class UserStatisticsComponent implements OnInit {
         datasets: [
           {
             label: 'Age',
-            data: ['467', '576', '572', '79', '92', '574', '573', '576'],
+            data: data,
             backgroundColor: 'blue',
           },
         ],
