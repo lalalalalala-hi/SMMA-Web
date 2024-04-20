@@ -19,13 +19,12 @@ export class ViewEventComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.intialize();
+    this.initialize();
   }
 
-  intialize() {
+  initialize() {
     this.route.queryParams.subscribe((params) => {
       const eventId = params['eventId'];
-      console.log(eventId); // This will output the eventId value
 
       this.event.getEventById(eventId).subscribe((res: any) => {
         this.eventDetails = res;
@@ -37,6 +36,7 @@ export class ViewEventComponent implements OnInit {
       });
     });
   }
+
   getStoreName(id: string) {
     return this.stores.find((s: any) => s.storeId === id)?.name;
   }

@@ -62,7 +62,7 @@ export class AddStoreComponent implements OnInit {
           this.stores.push(res);
           this.toast.success({
             detail: 'SUCCESS',
-            summary: 'Store added successfully',
+            summary: 'Store Added Successfully',
             duration: 5000,
           });
           this.router.navigate(['store-list']);
@@ -70,7 +70,7 @@ export class AddStoreComponent implements OnInit {
         (err) => {
           this.toast.error({
             detail: 'ERROR',
-            summary: 'Store failed to add',
+            summary: 'Store Add Failed',
             duration: 5000,
           });
         }

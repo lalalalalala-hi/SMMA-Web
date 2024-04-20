@@ -29,6 +29,10 @@ import { AddEventComponent } from './components/management/event/add-event/add-e
 import { EventListComponent } from './components/management/event/event-list/event-list.component';
 import { ViewEventComponent } from './components/management/event/view-event/view-event.component';
 import { EditEventComponent } from './components/management/event/edit-event/edit-event.component';
+import { AddPromoComponent } from './components/management/promotion/add-promo/add-promo.component';
+import { EditPromoComponent } from './components/management/promotion/edit-promo/edit-promo.component';
+import { ViewPromoComponent } from './components/management/promotion/view-promo/view-promo.component';
+import { PromoListComponent } from './components/management/promotion/promo-list/promo-list.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +53,10 @@ import { EditEventComponent } from './components/management/event/edit-event/edi
     EditEventComponent,
     EventListComponent,
     ViewEventComponent,
+    AddPromoComponent,
+    EditPromoComponent,
+    ViewPromoComponent,
+    PromoListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,44 @@
-<p>promo-list works!</p>
+<app-navbar></app-navbar>
+<div class="container-fuild">
+  <h1 class="title-text text-center">PROMOTION</h1>
+  <div class="row text-center">
+    <div class="btn-container mb-3">
+        <button class="btn float-end" onclick="window.location.href='/add-promo'"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    </div>
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Store</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th style="width: 100px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let promo of promos">
+                <td>{{promo.title}}</td>
+                <td>{{promo.image}}</td>
+                <td>{{getStoreName(promo.storeId)}}</td>
+                <td>{{promo.description}}</td>
+                <td>{{promo.location}}</td>
+                <td>{{promo.startDate}}</td>
+                <td>{{promo.endDate}}</td>
+                <td>{{promo.startTime}}</td>
+                <td>{{promo.endTime}}</td>
+                <td>
+                    <a href="/view-promo?promoId={{promo.promotionId}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <a href="/edit-promo?promoId={{promo.promotionId}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <i class="fa fa-trash-o" aria-hidden="true" (click)="deletePromo(promo.promotionId)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

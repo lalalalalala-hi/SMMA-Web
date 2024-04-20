@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { EventService } from 'src/app/services/event/event.service';
+import { PromoService } from 'src/app/services/promo/promo.service';
 import { StoreService } from 'src/app/services/store/store.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -12,7 +14,9 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class DashboardComponent implements OnInit {
   users: any[] = [];
-  public stores: any = [];
+  stores: any = [];
+  promos: any = [];
+  events: any = [];
   pieInfo: any = [];
   barInfo: any = [];
   age1: any = 0;
@@ -28,6 +32,8 @@ export class DashboardComponent implements OnInit {
     private auth: AuthService,
     private user: UserService,
     private store: StoreService,
+    private promo: PromoService,
+    private event: EventService,
     private toast: NgToastService
   ) {}
 
@@ -55,6 +61,14 @@ export class DashboardComponent implements OnInit {
     this.store.getAllStores().subscribe((res: any) => {
       this.stores = res;
     });
+
+    this.promo.getAllPromos().subscribe((res: any) => {
+      this.promos = res;
+    });
+
+    this.event.getAllEvents().subscribe((res: any) => {
+      this.events = res;
+    });
   }
 
   getUserNumber() {
@@ -63,6 +77,14 @@ export class DashboardComponent implements OnInit {
 
   getStoreNumber() {
     return this.stores.length;
+  }
+
+  getPromoNumber() {
+    return this.promos.length;
+  }
+
+  getEventNumber() {
+    return this.events.length;
   }
 
   logout() {

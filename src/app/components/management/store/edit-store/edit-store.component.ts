@@ -74,7 +74,7 @@ export class EditStoreComponent implements OnInit {
           this.stores.push(res);
           this.toast.success({
             detail: 'SUCCESS',
-            summary: 'Store edited successfully',
+            summary: 'Store Updated Successfully',
             duration: 5000,
           });
           this.router.navigate(['store-list']);
@@ -82,7 +82,7 @@ export class EditStoreComponent implements OnInit {
         (err) => {
           this.toast.error({
             detail: 'ERROR',
-            summary: err.message,
+            summary: 'Store Update Failed',
             duration: 5000,
           });
         }

@@ -16,6 +16,10 @@ import { AddEventComponent } from './components/management/event/add-event/add-e
 import { EditEventComponent } from './components/management/event/edit-event/edit-event.component';
 import { EventListComponent } from './components/management/event/event-list/event-list.component';
 import { ViewEventComponent } from './components/management/event/view-event/view-event.component';
+import { AddPromoComponent } from './components/management/promotion/add-promo/add-promo.component';
+import { EditPromoComponent } from './components/management/promotion/edit-promo/edit-promo.component';
+import { PromoListComponent } from './components/management/promotion/promo-list/promo-list.component';
+import { ViewPromoComponent } from './components/management/promotion/view-promo/view-promo.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -84,6 +88,26 @@ const routes: Routes = [
   {
     path: 'view-event',
     component: ViewEventComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'add-promo',
+    component: AddPromoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'edit-promo',
+    component: EditPromoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'promo-list',
+    component: PromoListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'view-promo',
+    component: ViewPromoComponent,
     canActivate: [AuthGuard],
   },
 ];

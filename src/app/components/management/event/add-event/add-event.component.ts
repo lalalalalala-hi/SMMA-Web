@@ -61,7 +61,7 @@ export class AddEventComponent implements OnInit {
         (err) => {
           this.toast.error({
             detail: 'ERROR',
-            summary: 'Event failed to add',
+            summary: 'Event Add Failed',
             duration: 5000,
           });
         }

@@ -19,6 +19,10 @@ export class EventListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initialize();
+  }
+
+  initialize() {
     this.event.getAllEvents().subscribe((res: any) => {
       this.events = res;
     });
@@ -38,14 +42,15 @@ export class EventListComponent implements OnInit {
         this.events = this.events.filter((e) => e.eventId !== id);
         this.toast.success({
           detail: 'SUCCESS',
-          summary: 'Store deleted successfully',
+          summary: 'Store Deleted Successfully',
           duration: 5000,
         });
+        this.initialize();
       },
       (err) => {
         this.toast.error({
           detail: 'ERROR',
-          summary: "Something's wrong",
+          summary: 'Store Deletion Failed',
           duration: 5000,
         });
       }
