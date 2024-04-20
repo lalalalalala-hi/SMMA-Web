@@ -56,6 +56,10 @@ export class StoreListComponent implements OnInit {
     return this.categories.find((c) => c.categoryId === id)?.categoryName;
   }
 
+  getFloorName(id: string) {
+    return this.floors.find((f) => f.floorId === id)?.floorName;
+  }
+
   deleteStore(id: number) {
     this.store.deleteStore(id).subscribe(
       (res: any) => {

@@ -1,0 +1,61 @@
+<app-navbar></app-navbar>
+<div class="container-fuild">
+  <h1 class="title-text text-center">STORE</h1>
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-body">
+            <h2 class="pb-4">Edit Store Form</h2>
+            <form [formGroup]="editStoreForm">
+              <div class="form-group">
+                  <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" [value]="storeDetails.name" formControlName="name">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input class="form-control" type="file" formControlName="image" accept="image/*">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" formControlName="categoryId">
+                        <option value="" disabled>Select Category</option>
+                        <option *ngFor="let category of categories" [value]="category.categoryId" [selected]="category.categoryId === storeDetails.categoryId">{{category.categoryName}}</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Floor</label>
+                    <select class="form-select" formControlName="floorId">
+                        <option value="" disabled>Select Floor</option>
+                        <option *ngFor="let floor of floors" [value]="floor.floorId" [selected]="floor.floorId === storeDetails.floorId">{{floor.floorName}}</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Location <small class="small-text">Ex: LG12, LG13</small></label>
+                    <input class="form-control" type="text" formControlName="location" value="{{storeDetails.location}}">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" formControlName="description" value="{{storeDetails.description}}"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Contact Number</label>
+                    <input type="text" class="form-control" formControlName="contactNumber" value="{{storeDetails.contactNumber}}">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Opening Time</label>
+                    <input type="time" class="form-control" formControlName="openingTime" value="{{storeDetails.openingTime}}">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Closing Time</label>
+                    <input type="time" class="form-control" formControlName="closingTime" value="{{storeDetails.closingTime}}">
+                  </div>
+                  <input type="hidden" formControlName="storeId" [value]="storeDetails.storeId">
+                  <button  (click)="onSubmit(storeDetails.storeId)" type="submit" class="btn btn-submit mt-4 w-100">Submit</button>
+
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>

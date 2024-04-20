@@ -12,6 +12,7 @@
                 <th>Name</th>
                 <th>Image</th>
                 <th>Category</th>
+                <th>Floor</th>
                 <th>Location</th>
                 <th>Contact Number</th>
                 <th>Description</th>
@@ -25,14 +26,15 @@
                 <td>{{store.name}}</td>
                 <td>{{store.image}}</td>
                 <td>{{getCategoryName(store.categoryId)}}</td>
+                <td>{{getFloorName(store.floorId)}}</td>
                 <td>{{store.location}}</td>
                 <td>{{store.contactNumber}}</td>
                 <td>{{store.description}}</td>
                 <td>{{store.openingTime}}</td>
                 <td>{{store.closingTime}}</td>
                 <td>
-                    <a href="/view-store&storeId=storeId"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <a href="/view-store?storeId={{store.storeId}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <a href="/edit-store?storeId={{store.storeId}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                     <i class="fa fa-trash-o" aria-hidden="true" (click)="deleteStore(store.storeId)"></i>
                 </td>
               </tr>

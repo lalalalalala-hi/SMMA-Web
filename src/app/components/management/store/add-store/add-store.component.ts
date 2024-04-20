@@ -27,24 +27,14 @@ export class AddStoreComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.floor.getAllFloors().subscribe(
-      (res: any) => {
-        this.floors = res;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    this.floor.getAllFloors().subscribe((res: any) => {
+      this.floors = res;
+    });
 
-    this.category.getAllCategories().subscribe(
-      (res: any) => {
-        this.categories = res;
-        console.log(this.categories);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    this.category.getAllCategories().subscribe((res: any) => {
+      this.categories = res;
+      console.log(this.categories);
+    });
 
     this.addStoreForm = this.fb.group({
       storeId: [''],

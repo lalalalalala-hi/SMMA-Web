@@ -21,10 +21,14 @@ import { UserStatisticsComponent } from './components/statistics/user-statistics
 import { RouteStatisticsComponent } from './components/statistics/route-statistics/route-statistics.component';
 import { StorelistStatisticsComponent } from './components/statistics/storelist-statistics/storelist-statistics.component';
 import { StoreStatisticsComponent } from './components/statistics/store-statistics/store-statistics.component';
-import { AddStoreComponent } from './components/store/add-store/add-store.component';
-import { EditStoreComponent } from './components/store/edit-store/edit-store.component';
-import { ViewStoreComponent } from './components/store/view-store/view-store.component';
-import { StoreListComponent } from './components/store/store-list/store-list.component';
+import { AddStoreComponent } from './components/management/store/add-store/add-store.component';
+import { EditStoreComponent } from './components/management/store/edit-store/edit-store.component';
+import { ViewStoreComponent } from './components/management/store/view-store/view-store.component';
+import { StoreListComponent } from './components/management/store/store-list/store-list.component';
+import { AddEventComponent } from './components/management/event/add-event/add-event.component';
+import { EventListComponent } from './components/management/event/event-list/event-list.component';
+import { ViewEventComponent } from './components/management/event/view-event/view-event.component';
+import { EditEventComponent } from './components/management/event/edit-event/edit-event.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +45,10 @@ import { StoreListComponent } from './components/store/store-list/store-list.com
     EditStoreComponent,
     StoreListComponent,
     ViewStoreComponent,
+    AddEventComponent,
+    EditEventComponent,
+    EventListComponent,
+    ViewEventComponent,
   ],
   imports: [
     BrowserModule,
