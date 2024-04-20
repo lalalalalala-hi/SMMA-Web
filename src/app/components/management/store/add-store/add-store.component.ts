@@ -27,6 +27,10 @@ export class AddStoreComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initialize();
+  }
+
+  initialize() {
     this.floor.getAllFloors().subscribe((res: any) => {
       this.floors = res;
     });
@@ -52,7 +56,6 @@ export class AddStoreComponent implements OnInit {
 
   onSubmit() {
     if (this.addStoreForm.valid) {
-      console.log(this.addStoreForm.value);
       this.store.addStore(this.addStoreForm.value).subscribe(
         (res: any) => {
           this.addStoreForm.reset();
@@ -67,7 +70,7 @@ export class AddStoreComponent implements OnInit {
         (err) => {
           this.toast.error({
             detail: 'ERROR',
-            summary: "Something's wrong",
+            summary: 'Store failed to add',
             duration: 5000,
           });
         }

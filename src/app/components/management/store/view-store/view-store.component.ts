@@ -25,11 +25,9 @@ export class ViewStoreComponent implements OnInit {
   intialize() {
     this.route.queryParams.subscribe((params) => {
       const storeId = params['storeId'];
-      console.log(storeId); // This will output the storeId value
 
       this.store.getStoreById(storeId).subscribe((res: any) => {
         this.storeDetails = res;
-        console.log(this.storeDetails);
       });
     });
 

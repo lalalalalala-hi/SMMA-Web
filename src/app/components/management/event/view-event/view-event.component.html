@@ -1,1 +1,26 @@
-<p>view-event works!</p>
+<app-navbar></app-navbar>
+<div class="container-fuild">
+  <h1 class="title-text text-center">EVENT</h1>
+  <div class="row">
+    <div class="col">
+      <div class="card mb-3" style="height: 400px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="../../../../assets/images/Popular.webp" class="img-fluid rounded-start" alt="..." style="height: 400px;">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body body-pink">
+              <h2 class="card-title">{{eventDetails.title}}</h2><br>
+              <p class="card-text"><i class="fa fa-bank" aria-hidden="true"></i>{{getStoreName(eventDetails.storeId)}}</p>
+              <p class="card-text"><i class="fa fa-map" aria-hidden="true"></i>{{eventDetails.location}}</p>
+              <p class="card-text"><i class="fa fa-calendar" aria-hidden="true"></i>{{eventDetails.startDate}} - {{eventDetails.endDate}}</p>
+              <p class="card-text"><i class="fa fa-clock-o" aria-hidden="true"></i>{{eventDetails.startTime}} - {{eventDetails.endTime}}</p>
+              <hr>
+              <p class="card-text">{{eventDetails.description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
