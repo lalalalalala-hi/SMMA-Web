@@ -33,11 +33,14 @@ import { AddPromoComponent } from './components/management/promotion/add-promo/a
 import { EditPromoComponent } from './components/management/promotion/edit-promo/edit-promo.component';
 import { ViewPromoComponent } from './components/management/promotion/view-promo/view-promo.component';
 import { PromoListComponent } from './components/management/promotion/promo-list/promo-list.component';
+import { WifiDataComponent } from './components/wifi/wifi-data/wifi-data.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { BodyComponent } from './body/body.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
+    BodyComponent,
     LoginComponent,
     SignupComponent,
     DashboardComponent,
@@ -57,6 +60,8 @@ import { PromoListComponent } from './components/management/promotion/promo-list
     EditPromoComponent,
     ViewPromoComponent,
     PromoListComponent,
+    WifiDataComponent,
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,

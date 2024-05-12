@@ -20,6 +20,7 @@ import { AddPromoComponent } from './components/management/promotion/add-promo/a
 import { EditPromoComponent } from './components/management/promotion/edit-promo/edit-promo.component';
 import { PromoListComponent } from './components/management/promotion/promo-list/promo-list.component';
 import { ViewPromoComponent } from './components/management/promotion/view-promo/view-promo.component';
+import { WifiDataComponent } from './components/wifi/wifi-data/wifi-data.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -108,6 +109,11 @@ const routes: Routes = [
   {
     path: 'view-promo',
     component: ViewPromoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'wifi',
+    component: WifiDataComponent,
     canActivate: [AuthGuard],
   },
 ];
