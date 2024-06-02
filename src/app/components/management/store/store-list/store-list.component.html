@@ -24,7 +24,7 @@
             <tbody>
               <tr *ngFor="let store of stores">
                 <td>{{store.name}}</td>
-                <td><img *ngIf="store.image && imageUrls[store.image]" [src]="imageUrls[store.image]" alt="Store Image" style="max-width: 200px;"></td>
+                <td><img *ngIf="store.image && imageUrls[store.image]" [src]="imageUrls[store.image]" alt="{{store.image}}" style="max-width: 200px;"></td>
                 <td>{{getCategoryName(store.categoryId)}}</td>
                 <td>{{getFloorName(store.floorId)}}</td>
                 <td>{{store.location}}</td>

@@ -24,7 +24,7 @@
             <tbody>
               <tr *ngFor="let promo of promos">
                 <td>{{promo.title}}</td>
-                <td>{{promo.image}}</td>
+                <td><img *ngIf="promo.image && imageUrls[promo.image]" [src]="imageUrls[promo.image]" alt="{{promo.image}}" style="max-width: 200px;"></td>
                 <td>{{getStoreName(promo.storeId)}}</td>
                 <td>{{promo.description}}</td>
                 <td>{{promo.location}}</td>
@@ -35,7 +35,7 @@
                 <td>
                     <a href="/view-promo?promoId={{promo.promotionId}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                     <a href="/edit-promo?promoId={{promo.promotionId}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                    <i class="fa fa-trash-o" aria-hidden="true" (click)="deletePromo(promo.promotionId)"></i>
+                    <i class="fa fa-trash" aria-hidden="true" (click)="deletePromo(promo.promotionId)"></i>
                 </td>
               </tr>
             </tbody>

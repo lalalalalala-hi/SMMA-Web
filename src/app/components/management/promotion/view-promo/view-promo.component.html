@@ -3,10 +3,10 @@
   <h1 class="title-text text-center">PROMOTION</h1>
   <div class="row">
     <div class="col">
-      <div class="card mb-3" style="height: 600px;">
+      <div class="card mb-3" style="height: 400px;">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="../../../../assets/images/Popular.webp" class="img-fluid rounded-start" alt="..." style="height: 600px;">
+            <img class="img-fluid rounded-start" *ngIf="imageUrl" [src]="imageUrl" alt="{{imageUrl}}" style="height: 400px;">
           </div>
           <div class="col-md-8">
             <div class="card-body body-pink">

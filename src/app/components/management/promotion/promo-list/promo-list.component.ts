@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgToastService } from 'ng-angular-popup';
+import { ImageUploadService } from 'src/app/services/image/image-upload.service';
 import { PromoService } from 'src/app/services/promo/promo.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
@@ -9,13 +11,16 @@ import { StoreService } from 'src/app/services/store/store.service';
   styleUrl: './promo-list.component.scss',
 })
 export class PromoListComponent {
+  imageUrls: { [key: string]: SafeUrl } = {};
   promos: any[] = [];
   stores: any[] = [];
 
   constructor(
     private promo: PromoService,
     private store: StoreService,
-    private toast: NgToastService
+    private imageService: ImageUploadService,
+    private toast: NgToastService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -25,7 +30,7 @@ export class PromoListComponent {
   initialize() {
     this.promo.getAllPromos().subscribe((res: any) => {
       this.promos = res;
-      console.log(this.promos);
+      this.loadImages();
     });
 
     this.store.getAllStores().subscribe((res: any) => {
@@ -35,6 +40,23 @@ export class PromoListComponent {
 
   getStoreName(id: string) {
     return this.stores.find((s) => s.storeId === id)?.name;
+  }
+
+  loadImages(): void {
+    this.promos.forEach((promo) => {
+      if (promo.image) {
+        this.imageService.getImage(promo.image).subscribe(
+          (data: Blob) => {
+            const objectURL = URL.createObjectURL(data);
+            this.imageUrls[promo.image] =
+              this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          },
+          (error) => {
+            console.error('Error fetching image:', error);
+          }
+        );
+      }
+    });
   }
 
   deletePromo(id: number) {

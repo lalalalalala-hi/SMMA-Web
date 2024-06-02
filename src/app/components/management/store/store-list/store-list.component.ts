@@ -16,7 +16,6 @@ export class StoreListComponent implements OnInit {
   stores: any[] = [];
   floors: any[] = [];
   categories: any[] = [];
-  imageFileName: any[] = [];
 
   constructor(
     private store: StoreService,
@@ -36,7 +35,6 @@ export class StoreListComponent implements OnInit {
       (res: any) => {
         this.stores = res;
         this.loadImages();
-        console.log(this.stores);
       },
       (err) => {
         console.log(err);

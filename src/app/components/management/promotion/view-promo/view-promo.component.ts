@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { ImageUploadService } from 'src/app/services/image/image-upload.service';
 import { PromoService } from 'src/app/services/promo/promo.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
@@ -11,11 +13,14 @@ import { StoreService } from 'src/app/services/store/store.service';
 export class ViewPromoComponent {
   promoDetails: any = [];
   stores: any[] = [];
+  imageUrl: SafeUrl | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private promo: PromoService,
-    private store: StoreService
+    private store: StoreService,
+    private imageService: ImageUploadService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +34,7 @@ export class ViewPromoComponent {
 
       this.promo.getPromoById(promoId).subscribe((res: any) => {
         this.promoDetails = res;
-        console.log(this.promoDetails);
+        this.getImage(this.promoDetails.image);
       });
 
       this.store.getAllStores().subscribe((res: any) => {
@@ -40,5 +45,17 @@ export class ViewPromoComponent {
 
   getStoreName(id: string) {
     return this.stores.find((s: any) => s.storeId === id)?.name;
+  }
+
+  getImage(filename: string) {
+    this.imageService.getImage(filename).subscribe(
+      (data: Blob) => {
+        const objectURL = URL.createObjectURL(data);
+        this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      },
+      (error) => {
+        console.error('Error fetching image:', error);
+      }
+    );
   }
 }

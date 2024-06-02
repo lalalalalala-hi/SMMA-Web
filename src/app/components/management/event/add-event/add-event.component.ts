@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { EventService } from 'src/app/services/event/event.service';
+import { ImageUploadService } from 'src/app/services/image/image-upload.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -12,12 +13,14 @@ import { StoreService } from 'src/app/services/store/store.service';
 })
 export class AddEventComponent implements OnInit {
   addEventForm!: FormGroup;
+  selectedFile: File | null = null;
   stores: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private event: EventService,
     private store: StoreService,
+    private imageUploadService: ImageUploadService,
     private router: Router,
     private toast: NgToastService
   ) {}
@@ -45,27 +48,49 @@ export class AddEventComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
   onSubmit() {
     if (this.addEventForm.valid) {
-      console.log(this.addEventForm.value);
-      this.event.addEvent(this.addEventForm.value).subscribe(
-        (res: any) => {
-          this.addEventForm.reset();
-          this.toast.success({
-            detail: 'SUCCESS',
-            summary: 'Event Added Successfully',
-            duration: 5000,
-          });
-          this.router.navigate(['event-list']);
-        },
-        (err) => {
-          this.toast.error({
-            detail: 'ERROR',
-            summary: 'Event Add Failed',
-            duration: 5000,
-          });
-        }
-      );
+      if (this.selectedFile) {
+        this.imageUploadService.uploadFile(this.selectedFile).subscribe(
+          (uploadRes: any) => {
+            const filename = uploadRes.filename;
+            const eventData = { ...this.addEventForm.value, image: filename };
+
+            this.event.addEvent(eventData).subscribe(
+              (res: any) => {
+                this.addEventForm.reset();
+                this.toast.success({
+                  detail: 'SUCCESS',
+                  summary: 'Event Added Successfully',
+                  duration: 5000,
+                });
+                this.router.navigate(['event-list']);
+              },
+              (err) => {
+                this.toast.error({
+                  detail: 'ERROR',
+                  summary: 'Event Add Failed',
+                  duration: 5000,
+                });
+              }
+            );
+          },
+          (uploadErr) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Image Upload Failed',
+              duration: 5000,
+            });
+          }
+        );
+      }
     }
   }
 }

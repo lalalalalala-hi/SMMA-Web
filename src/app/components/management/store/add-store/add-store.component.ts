@@ -69,11 +69,8 @@ export class AddStoreComponent implements OnInit {
       if (this.selectedFile) {
         this.imageUploadService.uploadFile(this.selectedFile).subscribe(
           (uploadRes: any) => {
-            console.log(uploadRes);
             const filename = uploadRes.filename;
-            console.log(uploadRes.filename);
             const storeData = { ...this.addStoreForm.value, image: filename };
-            console.log(storeData);
 
             this.store.addStore(storeData).subscribe(
               (res: any) => {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { ImageUploadService } from 'src/app/services/image/image-upload.service';
 import { PromoService } from 'src/app/services/promo/promo.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
@@ -13,11 +14,13 @@ import { StoreService } from 'src/app/services/store/store.service';
 export class AddPromoComponent {
   addPromoForm!: FormGroup;
   stores: any[] = [];
+  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private promo: PromoService,
     private store: StoreService,
+    private imageUploadService: ImageUploadService,
     private router: Router,
     private toast: NgToastService
   ) {}
@@ -45,27 +48,52 @@ export class AddPromoComponent {
     });
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
   onSubmit() {
     if (this.addPromoForm.valid) {
-      console.log(this.addPromoForm.value);
-      this.promo.addPromo(this.addPromoForm.value).subscribe(
-        (res: any) => {
-          this.addPromoForm.reset();
-          this.toast.success({
-            detail: 'SUCCESS',
-            summary: 'Promotion Added Successfully',
-            duration: 5000,
-          });
-          this.router.navigate(['promo-list']);
-        },
-        (err) => {
-          this.toast.error({
-            detail: 'ERROR',
-            summary: 'Promotion Add Failed',
-            duration: 5000,
-          });
-        }
-      );
+      if (this.selectedFile) {
+        this.imageUploadService.uploadFile(this.selectedFile).subscribe(
+          (uploadRes: any) => {
+            console.log(uploadRes);
+            const filename = uploadRes.filename;
+            console.log(uploadRes.filename);
+            const promoData = { ...this.addPromoForm.value, image: filename };
+            console.log(promoData);
+
+            this.promo.addPromo(promoData).subscribe(
+              (res: any) => {
+                this.addPromoForm.reset();
+                this.toast.success({
+                  detail: 'SUCCESS',
+                  summary: 'Promotion Added Successfully',
+                  duration: 5000,
+                });
+                this.router.navigate(['promo-list']);
+              },
+              (err) => {
+                this.toast.error({
+                  detail: 'ERROR',
+                  summary: 'Promotion Add Failed',
+                  duration: 5000,
+                });
+              }
+            );
+          },
+          (uploadErr) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Image Upload Failed',
+              duration: 5000,
+            });
+          }
+        );
+      }
     }
   }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgToastService } from 'ng-angular-popup';
 import { EventService } from 'src/app/services/event/event.service';
+import { ImageUploadService } from 'src/app/services/image/image-upload.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -9,13 +11,16 @@ import { StoreService } from 'src/app/services/store/store.service';
   styleUrl: './event-list.component.scss',
 })
 export class EventListComponent implements OnInit {
+  imageUrls: { [key: string]: SafeUrl } = {};
   events: any[] = [];
   stores: any[] = [];
 
   constructor(
     private event: EventService,
     private store: StoreService,
-    private toast: NgToastService
+    private imageService: ImageUploadService,
+    private toast: NgToastService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -25,6 +30,7 @@ export class EventListComponent implements OnInit {
   initialize() {
     this.event.getAllEvents().subscribe((res: any) => {
       this.events = res;
+      this.loadImages();
     });
 
     this.store.getAllStores().subscribe((res: any) => {
@@ -34,6 +40,23 @@ export class EventListComponent implements OnInit {
 
   getStoreName(id: string) {
     return this.stores.find((s) => s.storeId === id)?.name;
+  }
+
+  loadImages(): void {
+    this.events.forEach((event) => {
+      if (event.image) {
+        this.imageService.getImage(event.image).subscribe(
+          (data: Blob) => {
+            const objectURL = URL.createObjectURL(data);
+            this.imageUrls[event.image] =
+              this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          },
+          (error) => {
+            console.error('Error fetching image:', error);
+          }
+        );
+      }
+    });
   }
 
   deleteEvent(id: number) {

@@ -24,7 +24,7 @@
             <tbody>
               <tr *ngFor="let event of events">
                 <td>{{event.title}}</td>
-                <td>{{event.image}}</td>
+                <td><img *ngIf="event.image && imageUrls[event.image]" [src]="imageUrls[event.image]" alt="{{event.image}}" style="max-width: 200px;"></td>
                 <td>{{getStoreName(event.storeId)}}</td>
                 <td>{{event.description}}</td>
                 <td>{{event.location}}</td>
@@ -35,7 +35,7 @@
                 <td>
                     <a href="/view-event?eventId={{event.eventId}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                     <a href="/edit-event?eventId={{event.eventId}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                    <i class="fa fa-trash-o" aria-hidden="true" (click)="deleteEvent(event.eventId)"></i>
+                    <i class="fa fa-trash" aria-hidden="true" (click)="deleteEvent(event.eventId)"></i>
                 </td>
               </tr>
             </tbody>
