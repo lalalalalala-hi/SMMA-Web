@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { FloorService } from 'src/app/services/floor/floor.service';
+import { ImageUploadService } from 'src/app/services/image/image-upload.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -13,6 +14,7 @@ import { StoreService } from 'src/app/services/store/store.service';
 })
 export class AddStoreComponent implements OnInit {
   addStoreForm!: FormGroup;
+  selectedFile: File | null = null;
   floors: any[] = [];
   categories: any[] = [];
   stores: any[] = [];
@@ -22,6 +24,7 @@ export class AddStoreComponent implements OnInit {
     private floor: FloorService,
     private category: CategoryService,
     private store: StoreService,
+    private imageUploadService: ImageUploadService,
     private router: Router,
     private toast: NgToastService
   ) {}
@@ -54,27 +57,53 @@ export class AddStoreComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
   onSubmit() {
     if (this.addStoreForm.valid) {
-      this.store.addStore(this.addStoreForm.value).subscribe(
-        (res: any) => {
-          this.addStoreForm.reset();
-          this.stores.push(res);
-          this.toast.success({
-            detail: 'SUCCESS',
-            summary: 'Store Added Successfully',
-            duration: 5000,
-          });
-          this.router.navigate(['store-list']);
-        },
-        (err) => {
-          this.toast.error({
-            detail: 'ERROR',
-            summary: 'Store Add Failed',
-            duration: 5000,
-          });
-        }
-      );
+      if (this.selectedFile) {
+        this.imageUploadService.uploadFile(this.selectedFile).subscribe(
+          (uploadRes: any) => {
+            console.log(uploadRes);
+            const filename = uploadRes.filename;
+            console.log(uploadRes.filename);
+            const storeData = { ...this.addStoreForm.value, image: filename };
+            console.log(storeData);
+
+            this.store.addStore(storeData).subscribe(
+              (res: any) => {
+                this.addStoreForm.reset();
+                this.stores.push(res);
+                this.toast.success({
+                  detail: 'SUCCESS',
+                  summary: 'Store Added Successfully',
+                  duration: 5000,
+                });
+                this.router.navigate(['store-list']);
+              },
+              (err) => {
+                this.toast.error({
+                  detail: 'ERROR',
+                  summary: 'Store Add Failed',
+                  duration: 5000,
+                });
+              }
+            );
+          },
+          (uploadErr) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Image Upload Failed',
+              duration: 5000,
+            });
+          }
+        );
+      }
     }
   }
 }

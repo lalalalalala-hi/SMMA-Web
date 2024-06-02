@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgToastService } from 'ng-angular-popup';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { FloorService } from 'src/app/services/floor/floor.service';
+import { ImageUploadService } from 'src/app/services/image/image-upload.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -10,15 +12,19 @@ import { StoreService } from 'src/app/services/store/store.service';
   styleUrl: './store-list.component.scss',
 })
 export class StoreListComponent implements OnInit {
+  imageUrls: { [key: string]: SafeUrl } = {};
   stores: any[] = [];
   floors: any[] = [];
   categories: any[] = [];
+  imageFileName: any[] = [];
 
   constructor(
     private store: StoreService,
     private floor: FloorService,
     private category: CategoryService,
-    private toast: NgToastService
+    private imageService: ImageUploadService,
+    private toast: NgToastService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +35,7 @@ export class StoreListComponent implements OnInit {
     this.store.getAllStores().subscribe(
       (res: any) => {
         this.stores = res;
+        this.loadImages();
         console.log(this.stores);
       },
       (err) => {
@@ -62,6 +69,23 @@ export class StoreListComponent implements OnInit {
 
   getFloorName(id: string) {
     return this.floors.find((f) => f.floorId === id)?.floorName;
+  }
+
+  loadImages(): void {
+    this.stores.forEach((store) => {
+      if (store.image) {
+        this.imageService.getImage(store.image).subscribe(
+          (data: Blob) => {
+            const objectURL = URL.createObjectURL(data);
+            this.imageUrls[store.image] =
+              this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          },
+          (error) => {
+            console.error('Error fetching image:', error);
+          }
+        );
+      }
+    });
   }
 
   deleteStore(id: number) {

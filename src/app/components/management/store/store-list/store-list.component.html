@@ -24,7 +24,7 @@
             <tbody>
               <tr *ngFor="let store of stores">
                 <td>{{store.name}}</td>
-                <td>{{store.image}}</td>
+                <td><img *ngIf="store.image && imageUrls[store.image]" [src]="imageUrls[store.image]" alt="Store Image" style="max-width: 200px;"></td>
                 <td>{{getCategoryName(store.categoryId)}}</td>
                 <td>{{getFloorName(store.floorId)}}</td>
                 <td>{{store.location}}</td>
@@ -35,7 +35,7 @@
                 <td>
                     <a href="/view-store?storeId={{store.storeId}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                     <a href="/edit-store?storeId={{store.storeId}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                    <i class="fa fa-trash-o" aria-hidden="true" (click)="deleteStore(store.storeId)"></i>
+                    <i class="fa fa-trash" aria-hidden="true" (click)="deleteStore(store.storeId)"></i>
                 </td>
               </tr>
             </tbody>
