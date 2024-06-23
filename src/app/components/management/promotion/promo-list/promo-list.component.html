@@ -27,7 +27,7 @@
                 <td><img *ngIf="promo.image && imageUrls[promo.image]" [src]="imageUrls[promo.image]" alt="{{promo.image}}" style="max-width: 200px;"></td>
                 <td>{{getStoreName(promo.storeId)}}</td>
                 <td>{{promo.description}}</td>
-                <td>{{promo.location}}</td>
+                <td>{{getLocationName(promo.locationId)}}</td>
                 <td>{{promo.startDate}}</td>
                 <td>{{promo.endDate}}</td>
                 <td>{{promo.startTime}}</td>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
+import { RouteService } from 'src/app/services/route/route.service';
 
 @Component({
   selector: 'app-route-statistics',
@@ -7,10 +8,21 @@ import Chart from 'chart.js/auto';
   styleUrl: './route-statistics.component.scss',
 })
 export class RouteStatisticsComponent implements OnInit {
+  routes: any = [];
   pieInfo: any = [];
   barInfo: any = [];
 
+  constructor(private route: RouteService) {}
+
   ngOnInit() {
+    this.initialize();
+  }
+
+  initialize() {
+    this.route.getAllRoutes().subscribe((res: any) => {
+      this.routes = res;
+    });
+
     this.pieChart();
     this.barChart();
   }

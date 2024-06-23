@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
-import { ImageUploadService } from 'src/app/services/image/image-upload.service';
+import { LocationService } from 'src/app/services/location/location.service';
+import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
 import { PromoService } from 'src/app/services/promo/promo.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
@@ -14,12 +15,14 @@ import { StoreService } from 'src/app/services/store/store.service';
 export class AddPromoComponent {
   addPromoForm!: FormGroup;
   stores: any[] = [];
+  locations: any[] = [];
   selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private promo: PromoService,
     private store: StoreService,
+    private location: LocationService,
     private imageUploadService: ImageUploadService,
     private router: Router,
     private toast: NgToastService
@@ -34,17 +37,21 @@ export class AddPromoComponent {
       this.stores = res;
     });
 
+    this.location.getAllLocations().subscribe((res: any) => {
+      this.locations = res;
+    });
+
     this.addPromoForm = this.fb.group({
       promotionId: [''],
       storeId: [''],
       title: [''],
       image: [''],
       description: [''],
-      location: [''],
+      locationId: [''],
       startDate: [''],
       endDate: [''],
-      startTime: [''],
-      endTime: [''],
+      startTime: ['10:00'],
+      endTime: ['22:00'],
     });
   }
 
@@ -60,11 +67,8 @@ export class AddPromoComponent {
       if (this.selectedFile) {
         this.imageUploadService.uploadFile(this.selectedFile).subscribe(
           (uploadRes: any) => {
-            console.log(uploadRes);
             const filename = uploadRes.filename;
-            console.log(uploadRes.filename);
             const promoData = { ...this.addPromoForm.value, image: filename };
-            console.log(promoData);
 
             this.promo.addPromo(promoData).subscribe(
               (res: any) => {

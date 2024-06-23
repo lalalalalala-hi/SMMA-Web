@@ -27,7 +27,7 @@
                 <td><img *ngIf="event.image && imageUrls[event.image]" [src]="imageUrls[event.image]" alt="{{event.image}}" style="max-width: 200px;"></td>
                 <td>{{getStoreName(event.storeId)}}</td>
                 <td>{{event.description}}</td>
-                <td>{{event.location}}</td>
+                <td>{{getLocationName(event.locationId)}}</td>
                 <td>{{event.startDate}}</td>
                 <td>{{event.endDate}}</td>
                 <td>{{event.startTime}}</td>

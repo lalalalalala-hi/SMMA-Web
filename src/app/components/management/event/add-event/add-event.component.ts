@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { LocationService } from 'src/app/services/location/location.service';
 import { EventService } from 'src/app/services/event/event.service';
-import { ImageUploadService } from 'src/app/services/image/image-upload.service';
+import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -15,11 +16,13 @@ export class AddEventComponent implements OnInit {
   addEventForm!: FormGroup;
   selectedFile: File | null = null;
   stores: any[] = [];
+  locations: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private event: EventService,
     private store: StoreService,
+    private location: LocationService,
     private imageUploadService: ImageUploadService,
     private router: Router,
     private toast: NgToastService
@@ -34,17 +37,21 @@ export class AddEventComponent implements OnInit {
       this.stores = res;
     });
 
+    this.location.getAllLocations().subscribe((res: any) => {
+      this.locations = res;
+    });
+
     this.addEventForm = this.fb.group({
       eventId: [''],
       storeId: [''],
       title: [''],
       image: [''],
       description: [''],
-      location: [''],
+      locationId: [''],
       startDate: [''],
       endDate: [''],
-      startTime: [''],
-      endTime: [''],
+      startTime: ['10:00'],
+      endTime: ['22:00'],
     });
   }
 

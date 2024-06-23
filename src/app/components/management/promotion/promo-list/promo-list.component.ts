@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NgToastService } from 'ng-angular-popup';
-import { ImageUploadService } from 'src/app/services/image/image-upload.service';
+import { LocationService } from 'src/app/services/location/location.service';
+import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
 import { PromoService } from 'src/app/services/promo/promo.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
@@ -14,10 +15,12 @@ export class PromoListComponent {
   imageUrls: { [key: string]: SafeUrl } = {};
   promos: any[] = [];
   stores: any[] = [];
+  locations: any[] = [];
 
   constructor(
     private promo: PromoService,
     private store: StoreService,
+    private location: LocationService,
     private imageService: ImageUploadService,
     private toast: NgToastService,
     private sanitizer: DomSanitizer
@@ -36,10 +39,18 @@ export class PromoListComponent {
     this.store.getAllStores().subscribe((res: any) => {
       this.stores = res;
     });
+
+    this.location.getAllLocations().subscribe((res: any) => {
+      this.locations = res;
+    });
   }
 
   getStoreName(id: string) {
     return this.stores.find((s) => s.storeId === id)?.name;
+  }
+
+  getLocationName(id: string) {
+    return this.locations.find((l) => l.locationId === id)?.locationName;
   }
 
   loadImages(): void {

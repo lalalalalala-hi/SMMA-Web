@@ -2,14 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'https://localhost:7103/api/User';
+  private baseUrl = `${this.configService.baseUrl}/User`;
   private userPayload: any;
-  constructor(private http: HttpClient, private router: Router) {
+
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private router: Router
+  ) {
     this.userPayload = this.decodeToken();
   }
 

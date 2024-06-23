@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { LocationService } from 'src/app/services/location/location.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { FloorService } from 'src/app/services/floor/floor.service';
+import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -16,15 +18,19 @@ export class EditStoreComponent implements OnInit {
   floors: any[] = [];
   categories: any[] = [];
   stores: any[] = [];
+  locations: any[] = [];
   storeDetails: any = {};
   storeId: any;
   name: any;
+  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private floor: FloorService,
     private category: CategoryService,
+    private location: LocationService,
     private store: StoreService,
+    private imageUploadService: ImageUploadService,
     private router: Router,
     private toast: NgToastService,
     private route: ActivatedRoute
@@ -41,7 +47,8 @@ export class EditStoreComponent implements OnInit {
     });
 
     this.store.getStoreById(this.storeId).subscribe((res: any) => {
-      this.editStoreForm.patchValue(res);
+      const { image, ...rest } = res;
+      this.editStoreForm.patchValue(rest);
     });
 
     this.floor.getAllFloors().subscribe((res: any) => {
@@ -52,13 +59,17 @@ export class EditStoreComponent implements OnInit {
       this.categories = res;
     });
 
+    this.location.getAllLocations().subscribe((res: any) => {
+      this.locations = res;
+    });
+
     this.editStoreForm = this.fb.group({
-      storeId: [this.storeId],
+      storeId: [''],
       name: [''],
       image: [''],
       categoryId: [],
       floorId: [''],
-      location: [''],
+      locationId: [''],
       description: [''],
       contactNumber: [''],
       openingTime: [''],
@@ -66,27 +77,60 @@ export class EditStoreComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
   onSubmit(id: number) {
     if (this.editStoreForm.valid) {
-      console.log(this.editStoreForm.value);
-      this.store.updateStore(id, this.editStoreForm.value).subscribe(
-        (res: any) => {
-          this.stores.push(res);
-          this.toast.success({
-            detail: 'SUCCESS',
-            summary: 'Store Updated Successfully',
-            duration: 5000,
-          });
-          this.router.navigate(['store-list']);
-        },
-        (err) => {
-          this.toast.error({
-            detail: 'ERROR',
-            summary: 'Store Update Failed',
-            duration: 5000,
-          });
+      const formData = new FormData();
+      Object.keys(this.editStoreForm.value).forEach((key) => {
+        if (key !== 'image') {
+          formData.append(key, this.editStoreForm.value[key]);
         }
-      );
+      });
+
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile);
+      }
+
+      if (this.selectedFile) {
+        this.imageUploadService.uploadFile(this.selectedFile).subscribe(
+          (uploadRes: any) => {
+            const filename = uploadRes.filename;
+            const storeData = { ...this.editStoreForm.value, image: filename };
+
+            this.store.updateStore(id, storeData).subscribe(
+              (res: any) => {
+                this.stores.push(res);
+                this.toast.success({
+                  detail: 'SUCCESS',
+                  summary: 'Store Updated Successfully',
+                  duration: 5000,
+                });
+                this.router.navigate(['store-list']);
+              },
+              (err) => {
+                this.toast.error({
+                  detail: 'ERROR',
+                  summary: 'Store Update Failed',
+                  duration: 5000,
+                });
+              }
+            );
+          },
+          (uploadErr) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Image Upload Failed',
+              duration: 5000,
+            });
+          }
+        );
+      }
     }
   }
 }

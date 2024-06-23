@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FloorService {
-  private baseUrl = 'https://localhost:7103/api/Floor';
-  constructor(private http: HttpClient) {}
+  private baseUrl = `${this.configService.baseUrl}/Floor`;
+
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getAllFloors() {
     return this.http.get(this.baseUrl);

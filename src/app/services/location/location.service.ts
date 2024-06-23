@@ -5,28 +5,28 @@ import { ConfigService } from '../config/config.service';
 @Injectable({
   providedIn: 'root',
 })
-export class EventService {
-  private baseUrl = `${this.configService.baseUrl}/Events`;
+export class LocationService {
+  private baseUrl = `${this.configService.baseUrl}/Location`;
 
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
-  getAllEvents() {
+  getAllLocations() {
     return this.http.get(this.baseUrl);
   }
 
-  getEventById(id: number) {
+  getLocationById(id: number) {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  addEvent(eventObj: any) {
-    return this.http.post(this.baseUrl, eventObj);
+  addLocation(locationObj: any) {
+    return this.http.post(this.baseUrl, locationObj);
   }
 
-  updateEvent(id: number, eventObj: any) {
-    return this.http.put(`${this.baseUrl}/${id}`, eventObj);
+  updateLocation(id: number, locationObj: any) {
+    return this.http.put(`${this.baseUrl}/${id}`, locationObj);
   }
 
-  deleteEvent(id: number) {
+  deleteLocation(id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

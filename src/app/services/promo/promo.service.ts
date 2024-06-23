@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PromoService {
-  private baseUrl = 'https://localhost:7103/api/Promotion';
+  private baseUrl = `${this.configService.baseUrl}/Promotion`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getAllPromos() {
     return this.http.get(this.baseUrl);

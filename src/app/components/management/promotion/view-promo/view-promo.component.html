@@ -12,7 +12,7 @@
             <div class="card-body body-pink">
               <h2 class="card-title">{{promoDetails.title}}</h2><br>
               <p class="card-text"><i class="fa fa-bank" aria-hidden="true"></i>{{getStoreName(promoDetails.storeId)}}</p>
-              <p class="card-text"><i class="fa fa-map" aria-hidden="true"></i>{{promoDetails.location}}</p>
+              <p class="card-text"><i class="fa fa-map" aria-hidden="true"></i>{{getLocationName(promoDetails.locationId)}}</p>
               <p class="card-text"><i class="fa fa-calendar" aria-hidden="true"></i>{{promoDetails.startDate}} - {{promoDetails.endDate}}</p>
               <p class="card-text"><i class="fa fa-clock-o" aria-hidden="true"></i>{{promoDetails.startTime}} - {{promoDetails.endTime}}</p>
               <hr>

@@ -14,7 +14,7 @@
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Image</label>
-                    <input class="form-control" type="file" formControlName="image" accept="image/*">
+                    <input class="form-control" type="file" formControlName="image" accept="image/*" (change)="onFileSelected($event)">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Store</label>
@@ -24,8 +24,11 @@
                       </select>
                   </div>
                   <div class="mb-3">
-                    <label class="form-label">Location <small class="small-text">Ex: LG12, LG13</small></label>
-                    <input class="form-control" type="text" formControlName="location">
+                    <label class="form-label">Location</label>
+                    <select class="form-select" formControlName="locationId">
+                      <option value="" disabled selected>Select Location</option>
+                      <option *ngFor="let location of locations" value="{{location.locationId}}">{{location.locationName}}</option>
+                    </select>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Description</label>

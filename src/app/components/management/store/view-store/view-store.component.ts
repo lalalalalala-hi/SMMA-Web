@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { LocationService } from 'src/app/services/location/location.service';
 import { CategoryService } from 'src/app/services/category/category.service';
-import { ImageUploadService } from 'src/app/services/image/image-upload.service';
+import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -13,12 +14,14 @@ import { StoreService } from 'src/app/services/store/store.service';
 export class ViewStoreComponent implements OnInit {
   storeDetails: any = [];
   categories: any[] = [];
+  locations: any[] = [];
   imageUrl: SafeUrl | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private store: StoreService,
     private category: CategoryService,
+    private location: LocationService,
     private imageService: ImageUploadService,
     private sanitizer: DomSanitizer
   ) {}
@@ -40,10 +43,18 @@ export class ViewStoreComponent implements OnInit {
     this.category.getAllCategories().subscribe((res: any) => {
       this.categories = res;
     });
+
+    this.location.getAllLocations().subscribe((res: any) => {
+      this.locations = res;
+    });
   }
 
   getCategoryName(id: string) {
     return this.categories.find((c: any) => c.categoryId === id)?.categoryName;
+  }
+
+  getLocationName(id: string) {
+    return this.locations.find((l) => l.locationId === id)?.locationName;
   }
 
   getImage(filename: string) {

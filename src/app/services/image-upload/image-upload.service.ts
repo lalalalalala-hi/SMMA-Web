@@ -5,14 +5,15 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImageUploadService {
-  private apiUrl = 'https://localhost:7103/api/Files';
+  private apiUrl = `${this.configService.baseUrl}/Files`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   uploadFile(file: File): Observable<string> {
     const formData: FormData = new FormData();

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { LocationService } from 'src/app/services/location/location.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { FloorService } from 'src/app/services/floor/floor.service';
-import { ImageUploadService } from 'src/app/services/image/image-upload.service';
+import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
 @Component({
@@ -18,11 +19,13 @@ export class AddStoreComponent implements OnInit {
   floors: any[] = [];
   categories: any[] = [];
   stores: any[] = [];
+  locations: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private floor: FloorService,
     private category: CategoryService,
+    private location: LocationService,
     private store: StoreService,
     private imageUploadService: ImageUploadService,
     private router: Router,
@@ -40,7 +43,10 @@ export class AddStoreComponent implements OnInit {
 
     this.category.getAllCategories().subscribe((res: any) => {
       this.categories = res;
-      console.log(this.categories);
+    });
+
+    this.location.getAllLocations().subscribe((res: any) => {
+      this.locations = res;
     });
 
     this.addStoreForm = this.fb.group({
@@ -49,11 +55,11 @@ export class AddStoreComponent implements OnInit {
       image: [''],
       categoryId: [''],
       floorId: [''],
-      location: [''],
+      locationId: [''],
       description: [''],
       contactNumber: [''],
-      openingTime: [''],
-      closingTime: [''],
+      openingTime: ['10:00'],
+      closingTime: ['22:00'],
     });
   }
 

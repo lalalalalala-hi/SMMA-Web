@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { LocationService } from 'src/app/services/location/location.service';
+import { ImageUploadService } from 'src/app/services/image-upload/image-upload.service';
 import { PromoService } from 'src/app/services/promo/promo.service';
 import { StoreService } from 'src/app/services/store/store.service';
 
@@ -13,13 +15,17 @@ import { StoreService } from 'src/app/services/store/store.service';
 export class EditPromoComponent {
   editPromoForm!: FormGroup;
   stores: any[] = [];
+  locations: any[] = [];
   promoDetails: any = {};
   promoId: any;
+  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
     private promo: PromoService,
     private store: StoreService,
+    private location: LocationService,
+    private imageUploadService: ImageUploadService,
     private router: Router,
     private toast: NgToastService,
     private route: ActivatedRoute
@@ -36,11 +42,16 @@ export class EditPromoComponent {
     });
 
     this.promo.getPromoById(this.promoId).subscribe((res: any) => {
-      this.editPromoForm.patchValue(res);
+      const { image, ...rest } = res;
+      this.editPromoForm.patchValue(rest);
     });
 
     this.store.getAllStores().subscribe((res: any) => {
       this.stores = res;
+    });
+
+    this.location.getAllLocations().subscribe((res: any) => {
+      this.locations = res;
     });
 
     this.editPromoForm = this.fb.group({
@@ -49,7 +60,7 @@ export class EditPromoComponent {
       title: [''],
       image: [''],
       description: [''],
-      location: [''],
+      locationId: [''],
       startDate: [''],
       endDate: [''],
       startTime: [''],
@@ -57,25 +68,59 @@ export class EditPromoComponent {
     });
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
   onSubmit(id: number) {
     if (this.editPromoForm.valid) {
-      this.promo.updatePromo(id, this.editPromoForm.value).subscribe(
-        (res: any) => {
-          this.toast.success({
-            detail: 'SUCCESS',
-            summary: 'Promotion Updated Successfully',
-            duration: 5000,
-          });
-          this.router.navigate(['promo-list']);
-        },
-        (err) => {
-          this.toast.error({
-            detail: 'ERROR',
-            summary: 'Promotion Update Failed',
-            duration: 5000,
-          });
+      const formData = new FormData();
+      Object.keys(this.editPromoForm.value).forEach((key) => {
+        if (key !== 'image') {
+          formData.append(key, this.editPromoForm.value[key]);
         }
-      );
+      });
+
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile);
+      }
+
+      if (this.selectedFile) {
+        this.imageUploadService.uploadFile(this.selectedFile).subscribe(
+          (uploadRes: any) => {
+            const filename = uploadRes.filename;
+            const promoData = { ...this.editPromoForm.value, image: filename };
+
+            this.promo.updatePromo(id, promoData).subscribe(
+              (res: any) => {
+                this.toast.success({
+                  detail: 'SUCCESS',
+                  summary: 'Promotion Updated Successfully',
+                  duration: 5000,
+                });
+                this.router.navigate(['promo-list']);
+              },
+              (err) => {
+                this.toast.error({
+                  detail: 'ERROR',
+                  summary: 'Promotion Update Failed',
+                  duration: 5000,
+                });
+              }
+            );
+          },
+          (uploadErr) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Image Upload Failed',
+              duration: 5000,
+            });
+          }
+        );
+      }
     }
   }
 }

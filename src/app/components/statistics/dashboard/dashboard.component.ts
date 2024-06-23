@@ -4,6 +4,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { EventService } from 'src/app/services/event/event.service';
 import { PromoService } from 'src/app/services/promo/promo.service';
+import { RouteService } from 'src/app/services/route/route.service';
 import { StoreService } from 'src/app/services/store/store.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -17,6 +18,7 @@ export class DashboardComponent implements OnInit {
   stores: any = [];
   promos: any = [];
   events: any = [];
+  routes: any = [];
   pieInfo: any = [];
   barInfo: any = [];
   age1: any = 0;
@@ -34,6 +36,7 @@ export class DashboardComponent implements OnInit {
     private store: StoreService,
     private promo: PromoService,
     private event: EventService,
+    private route: RouteService,
     private toast: NgToastService
   ) {}
 
@@ -54,8 +57,6 @@ export class DashboardComponent implements OnInit {
       const age7 = res.filter((u: any) => u.age >= 61 && u.age <= 70).length;
       const age8 = res.filter((u: any) => u.age >= 71 && u.age <= 80).length;
       this.pieChart([age1, age2, age3, age4, age5, age6, age7, age8]);
-
-      this.barChart([1, 2, 3, 4, 5, 6, 7, 8]);
     });
 
     this.store.getAllStores().subscribe((res: any) => {
@@ -68,6 +69,11 @@ export class DashboardComponent implements OnInit {
 
     this.event.getAllEvents().subscribe((res: any) => {
       this.events = res;
+    });
+
+    this.route.getAllRoutes().subscribe((res: any) => {
+      this.routes = res;
+      this.prepareRouteData();
     });
   }
 
@@ -94,6 +100,32 @@ export class DashboardComponent implements OnInit {
       summary: 'Log out successfully',
       duration: 5000,
     });
+  }
+
+  prepareRouteData() {
+    const routeCounts: { [key: string]: number } = this.routes.reduce(
+      (
+        acc: { [key: string]: number },
+        route: { endRoute: string; count: number }
+      ) => {
+        const endRoute = route.endRoute;
+        if (!acc[endRoute]) {
+          acc[endRoute] = 0;
+        }
+        acc[endRoute] += route.count;
+        return acc;
+      },
+      {}
+    );
+
+    const sortedRoutes = Object.entries(routeCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+
+    const labels = sortedRoutes.map((route) => route[0]);
+    const data = sortedRoutes.map((route) => route[1]);
+
+    this.barChart(labels, data);
   }
 
   pieChart(data: number[]) {
@@ -137,11 +169,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  barChart(data: number[]) {
+  barChart(labels: string[], data: number[]) {
     this.barInfo = new Chart('barCanvas', {
       type: 'bar',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: labels,
         datasets: [
           {
             label: 'Number of destinations',
@@ -154,7 +186,7 @@ export class DashboardComponent implements OnInit {
         plugins: {
           title: {
             display: true,
-            text: 'Popular Store',
+            text: 'Top 5 Popular Stores',
             font: {
               size: 15,
             },
