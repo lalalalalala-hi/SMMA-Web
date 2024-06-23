@@ -34,7 +34,7 @@ h2, h3{
     padding : 15px;
 }
 
-#pieCanvas, #barCanvas, #bar2Canvas, #doughnutCanvas, #lineCanvas{
+#pieCanvas, #barCanvas, #bar2Canvas, #doughnutCanvas, #lineCanvas, #lineCanvas2{
     width: 100%;
     height: 400px !important;
 }
@@ -78,3 +78,49 @@ h2, h3{
 .small-text{
     font-size: 10px;
 }
+
+.status-active {
+    display: inline-block;
+    padding: 0.25em 0.75em;
+    font-size: 0.875em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 1rem;
+    background-color: green;
+  }
+  
+  .status-pending {
+    display: inline-block;
+    padding: 0.25em 0.75em;
+    font-size: 0.875em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 1rem;
+    background-color: orange;
+  }
+  
+  .status-empty {
+    display: inline-block;
+    padding: 0.25em 0.75em;
+    font-size: 0.875em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 1rem;
+    background-color: red;
+  }
+  
+
+  
+  

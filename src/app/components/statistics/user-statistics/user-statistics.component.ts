@@ -22,8 +22,8 @@ export class UserStatisticsComponent implements OnInit {
   initialize() {
     this.user.getAllUsers().subscribe((res: any) => {
       this.users = res;
-      const maleCOunt = res.filter((u: any) => u.gender === 'male').length;
-      const femaleCount = res.filter((u: any) => u.gender === 'female').length;
+      const maleCOunt = res.filter((u: any) => u.gender === 'Male').length;
+      const femaleCount = res.filter((u: any) => u.gender === 'Female').length;
       this.doughnutChart([femaleCount, maleCOunt]);
 
       const age1 = res.filter((u: any) => u.age >= 1 && u.age <= 10).length;

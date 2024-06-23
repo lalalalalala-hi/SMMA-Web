@@ -128,6 +128,38 @@ export class DashboardComponent implements OnInit {
     this.barChart(labels, data);
   }
 
+  barChart(labels: string[], data: number[]) {
+    this.barInfo = new Chart('barCanvas', {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Number of destinations',
+            data: data,
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Top 5 Popular Stores',
+            font: {
+              size: 15,
+            },
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
+
   pieChart(data: number[]) {
     this.pieInfo = new Chart('pieCanvas', {
       type: 'pie',
@@ -155,38 +187,6 @@ export class DashboardComponent implements OnInit {
           title: {
             display: true,
             text: 'Age Distribution of Users',
-            font: {
-              size: 15,
-            },
-          },
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-  }
-
-  barChart(labels: string[], data: number[]) {
-    this.barInfo = new Chart('barCanvas', {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Number of destinations',
-            data: data,
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: 'Top 5 Popular Stores',
             font: {
               size: 15,
             },

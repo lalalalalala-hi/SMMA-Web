@@ -6,7 +6,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">500</h2>
+          <h2 class="card-title">{{getActiveStore()}}</h2>
           <p class="card-text">active stores</p>
         </div>
       </div>
@@ -14,7 +14,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">500</h2>
+          <h2 class="card-title">{{getPendingStore()}}</h2>
           <p class="card-text">pending stores</p>
         </div>
       </div>
@@ -22,7 +22,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h2 class="card-title">500</h2>
+          <h2 class="card-title">{{getEmptyStore()}}</h2>
           <p class="card-text">empty stores</p>
         </div>
       </div>
@@ -35,7 +35,7 @@
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-center align-items-center">
-            <canvas id="barCanvas"></canvas>
+            <canvas id="pieCanvas"></canvas>
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-center align-items-center">
-            <canvas id="bar2Canvas"></canvas>
+            <canvas id="barCanvas"></canvas>
           </div>
         </div>
       </div>
@@ -68,20 +68,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>john.com</td>
-              </tr>
-              <tr>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary.com</td>
-              </tr>
-              <tr>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>july.com</td>
+              <tr *ngFor="let store of stores">
+                <td>{{store.name}}</td>
+                <td><img *ngIf="store.image && imageUrls[store.image]" [src]="imageUrls[store.image]" alt="{{store.image}}" style="max-width: 200px;"></td>
+                <td>{{getCategoryName(store.categoryId)}}</td>
+                <td>{{getLocationName(store.locationId)}}</td>
+                <td>{{getFootPrint(store.name)}}</td>
+                <td>
+                  <a href="/storelist-statistics?storeId={{store.storeId}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+              </td>
               </tr>
             </tbody>
           </table>

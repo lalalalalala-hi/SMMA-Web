@@ -72,6 +72,7 @@ export class EditStoreComponent implements OnInit {
       locationId: [''],
       description: [''],
       contactNumber: [''],
+      status: [''],
       openingTime: [''],
       closingTime: [''],
     });

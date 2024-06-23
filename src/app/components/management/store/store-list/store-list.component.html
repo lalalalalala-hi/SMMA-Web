@@ -18,6 +18,7 @@
                 <th>Description</th>
                 <th>Opening Hours</th>
                 <th>Closing Hours</th>
+                <th>Status</th>
                 <th style="width: 100px;">Action</th>
               </tr>
             </thead>
@@ -32,6 +33,13 @@
                 <td>{{store.description}}</td>
                 <td>{{store.openingTime}}</td>
                 <td>{{store.closingTime}}</td>
+                <td>
+                  <span [ngClass]="{
+                    'status-active': store.status === 'active',
+                    'status-pending': store.status === 'pending',
+                    'status-empty': store.status === 'empty'
+                  }">{{store.status | uppercase}}</span>
+                </td>
                 <td>
                     <a href="/view-store?storeId={{store.storeId}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                     <a href="/edit-store?storeId={{store.storeId}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>

@@ -58,6 +58,7 @@ export class AddStoreComponent implements OnInit {
       locationId: [''],
       description: [''],
       contactNumber: [''],
+      status: [''],
       openingTime: ['10:00'],
       closingTime: ['22:00'],
     });
