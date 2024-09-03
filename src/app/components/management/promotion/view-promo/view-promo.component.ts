@@ -33,7 +33,6 @@ export class ViewPromoComponent {
   initialize() {
     this.route.queryParams.subscribe((params) => {
       const promoId = params['promoId'];
-      console.log(promoId);
 
       this.promo.getPromoById(promoId).subscribe((res: any) => {
         this.promoDetails = res;

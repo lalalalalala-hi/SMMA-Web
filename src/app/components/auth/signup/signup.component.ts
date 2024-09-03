@@ -69,7 +69,6 @@ export class SignupComponent implements OnInit {
         }
       );
     } else {
-      console.log('Invalid form');
       ValidateForm.validateAllFormFields(this.signupForm);
       alert('Your form is invalid, please check again!');
     }

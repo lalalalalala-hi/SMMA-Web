@@ -61,8 +61,6 @@ export class SidenavComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.isAuth =
           this.router.url == '/login' || this.router.url == '/signup';
-        console.log('Is Auth:', this.isAuth);
-        console.log('Current Route:', this.router.url);
       }
     });
     this.screenWidth = window.innerWidth;

@@ -87,8 +87,6 @@ export class StorelistStatisticsComponent implements OnInit {
   }
 
   updateGenderPieChart(locationId: string) {
-    console.log('LocationId', locationId);
-
     this.userRouteService.getAllUserRoutes().subscribe((userRoutes: any) => {
       const routeIds = userRoutes.map((userRoute: any) => userRoute.routeId);
 
@@ -96,8 +94,6 @@ export class StorelistStatisticsComponent implements OnInit {
         const filteredRoutes = routes.filter((route: any) =>
           route.endRoute.startsWith(this.getLocationName(locationId))
         );
-
-        console.log('StoreLocation', this.getLocationName(locationId));
 
         const filteredUserRoutes = userRoutes.filter((userRoute: any) =>
           filteredRoutes.some(
@@ -122,8 +118,6 @@ export class StorelistStatisticsComponent implements OnInit {
               } else if (user.gender === 'Female') {
                 femaleCount++;
               }
-
-              console.log(maleCount, femaleCount);
 
               this.pieInfo.data.datasets[0].data = [maleCount, femaleCount];
               this.pieInfo.update();
