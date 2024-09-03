@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ConfigService } from '../config/config.service';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -55,10 +56,14 @@ export class AuthService {
     if (this.userPayload) return this.userPayload.unique_name;
   }
 
-  getRoleFromToken() {
-    if (this.userPayload) return this.userPayload.role;
+  getUserRole(token: string): Observable<string> {
+    // Extract role from the token or make a request to get the user's role
+    // Example assuming role is part of the token payload
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return of(payload.role); // Use 'of' to return an Observable if role is part of the token
+    // Alternatively, make an API call to fetch the role
+    // return this.http.get<string>(`${this.baseUrl}/user-role`, { headers: { Authorization: `Bearer ${token}` } });
   }
-
   // renewToken(tokenApi : TokenApiModel){
   //   return this.http.post<any>(`${this.baseUrl}refresh`, tokenApi)
   // }

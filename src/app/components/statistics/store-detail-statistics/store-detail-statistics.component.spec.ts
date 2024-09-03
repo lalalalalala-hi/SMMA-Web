@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StorelistStatisticsComponent } from './storelist-statistics.component';
+import { StorelistStatisticsComponent } from './store-detail-statistics.component';
 
 describe('StorelistStatisticsComponent', () => {
   let component: StorelistStatisticsComponent;
@@ -8,10 +8,9 @@ describe('StorelistStatisticsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StorelistStatisticsComponent]
-    })
-    .compileComponents();
-    
+      imports: [StorelistStatisticsComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(StorelistStatisticsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

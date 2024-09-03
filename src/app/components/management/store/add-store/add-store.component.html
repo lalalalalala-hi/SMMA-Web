@@ -1,4 +1,3 @@
-<!-- <app-navbar></app-navbar> -->
 <div class="container-fuild">
   <h1 class="title-text text-center">STORE</h1>
   <div class="row justify-content-center">
@@ -6,11 +5,14 @@
       <div class="card">
         <div class="card-body">
             <h2 class="pb-4">Add Store Form</h2>
-            <form [formGroup]="addStoreForm">
+            <form [formGroup]="addStoreForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                   <div class="mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" formControlName="name">
+                    <input type="text" class="form-control" formControlName="name" minlength="7" maxlength="50" required>
+                    <div *ngIf="addStoreForm.get('name')?.invalid && (addStoreForm.get('name')?.dirty || addStoreForm.get('name')?.touched)" class="text-danger">
+                      Name must be between 7 and 50 characters.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Image</label>
@@ -20,30 +22,45 @@
                     <label class="form-label">Category</label>
                     <select class="form-select" formControlName="categoryId">
                         <option value="" disabled selected>Select Category</option>
-                        <option *ngFor="let category of categories" value="{{category.categoryId}}">{{category.categoryName}}</option>
-                      </select>
+                        <option *ngFor="let category of categories" [value]="category['categoryId']">{{category['categoryName']}}</option>
+                    </select>
+                    <div *ngIf="addStoreForm.get('categoryId')?.invalid && (addStoreForm.get('categoryId')?.dirty || addStoreForm.get('categoryId')?.touched)" class="text-danger">
+                      Please select a category.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Floor</label>
                     <select class="form-select" formControlName="floorId">
                         <option value="" disabled selected>Select Floor</option>
-                        <option *ngFor="let floor of floors" value="{{floor.floorId}}">{{floor.floorName}}</option>
-                      </select>
+                        <option *ngFor="let floor of floors" [value]="floor['floorId']">{{floor['floorName']}}</option>
+                    </select>
+                    <div *ngIf="addStoreForm.get('floorId')?.invalid && (addStoreForm.get('floorId')?.dirty || addStoreForm.get('floorId')?.touched)" class="text-danger">
+                      Please select a floor.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Location</label>
                     <select class="form-select" formControlName="locationId">
                       <option value="" disabled selected>Select Location</option>
-                      <option *ngFor="let location of locations" value="{{location.locationId}}">{{location.locationName}}</option>
+                      <option *ngFor="let location of locations" [value]="location['locationId']">{{location['locationName']}}</option>
                     </select>
+                    <div *ngIf="addStoreForm.get('locationId')?.invalid && (addStoreForm.get('locationId')?.dirty || addStoreForm.get('locationId')?.touched)" class="text-danger">
+                      Please select a location.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea class="form-control" formControlName="description"></textarea>
+                    <textarea class="form-control" formControlName="description" minlength="51" maxlength="250" required></textarea>
+                    <div *ngIf="addStoreForm.get('description')?.invalid && (addStoreForm.get('description')?.dirty || addStoreForm.get('description')?.touched)" class="text-danger">
+                      Description must be between 51 and 250 characters.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Contact Number</label>
-                    <input type="text" class="form-control" formControlName="contactNumber">
+                    <input type="tel" class="form-control" formControlName="contactNumber" pattern="^01\d{9,10}$" required>
+                    <div *ngIf="addStoreForm.get('contactNumber')?.invalid && (addStoreForm.get('contactNumber')?.dirty || addStoreForm.get('contactNumber')?.touched)" class="text-danger">
+                      Contact number must be 11 to 12 digits and start with 01.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Status</label>
@@ -53,20 +70,27 @@
                       <option value="pending">Pending</option>
                       <option value="empty">Empty</option>
                     </select>
+                    <div *ngIf="addStoreForm.get('status')?.invalid && (addStoreForm.get('status')?.dirty || addStoreForm.get('status')?.touched)" class="text-danger">
+                      Please select a status.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Opening Time</label>
-                    <input type="time" class="form-control" formControlName="openingTime">
+                    <input type="time" class="form-control" formControlName="openingTime" required>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Closing Time</label>
-                    <input type="time" class="form-control" formControlName="closingTime">
+                    <input type="time" class="form-control" formControlName="closingTime" required>
+                    <div *ngIf="addStoreForm.hasError('invalidTime')" class="text-danger">
+                      Closing time must be later than opening time.
+                    </div>
                   </div>
-                  <button  (click)="onSubmit()" type="submit" class="btn btn-submit mt-4 w-100">Submit</button>
-
+                  <button type="submit" class="btn btn-submit mt-4 w-100" [disabled]="addStoreForm.invalid">Submit</button>
               </div>
             </form>
         </div>
       </div>
     </div>
+  </div>
 </div>
+

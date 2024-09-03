@@ -1,58 +1,89 @@
-<!-- <app-navbar></app-navbar> -->
-<div class="container-fuild">
+<div class="container-fluid">
   <h1 class="title-text text-center">PROMOTION</h1>
   <div class="row justify-content-center">
     <div class="col-lg-7">
       <div class="card">
         <div class="card-body">
             <h2 class="pb-4">Edit Promotion Form</h2>
-            <form [formGroup]="editPromoForm">
+            <form [formGroup]="editPromoForm" (ngSubmit)="onSubmit(promoDetails.promotionId)">
               <div class="form-group">
                   <div class="mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" formControlName="title">
+                    <input type="text" class="form-control" formControlName="title" minlength="7" maxlength="50" required>
+                    <div *ngIf="editPromoForm.get('title')?.invalid && (editPromoForm.get('title')?.dirty || editPromoForm.get('title')?.touched)" class="text-danger">
+                      Name must be between 7 and 50 characters.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Image</label>
-                    <input class="form-control" type="file" formControlName="image" accept="image/*" (change)="onFileSelected($event)">
+                    <input class="form-control" type="file" formControlName="image" accept="image/*" (change)="onFileSelected($event)" required>
+                    <div *ngIf="editPromoForm.get('image')?.errors?.['required']" class="text-danger">
+                      Image is required.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Store</label>
-                    <select class="form-select" formControlName="storeId">
+                    <select class="form-select" formControlName="storeId" required>
                         <option value="" disabled selected>Select Store</option>
-                        <option *ngFor="let store of stores" value="{{store.storeId}}">{{store.name}}</option>
-                      </select>
+                        <option *ngFor="let store of stores" [value]="store.storeId">{{store.name}}</option>
+                    </select>
+                    <div *ngIf="editPromoForm.get('storeId')?.invalid && (editPromoForm.get('storeId')?.dirty || editPromoForm.get('storeId')?.touched)" class="text-danger">
+                      Please select a store.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Location</label>
-                    <select class="form-select" formControlName="locationId">
+                    <select class="form-select" formControlName="locationId" required>
                       <option value="" disabled selected>Select Location</option>
-                      <option *ngFor="let location of locations" value="{{location.locationId}}">{{location.locationName}}</option>
+                      <option *ngFor="let location of locations" [value]="location.locationId">{{location.locationName}}</option>
                     </select>
+                    <div *ngIf="editPromoForm.get('locationId')?.invalid && (editPromoForm.get('locationId')?.dirty || editPromoForm.get('locationId')?.touched)" class="text-danger">
+                      Please select a location.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea class="form-control" formControlName="description"></textarea>
+                    <textarea class="form-control" formControlName="description" minlength="51" maxlength="250" required></textarea>
+                    <div *ngIf="editPromoForm.get('description')?.invalid && (editPromoForm.get('description')?.dirty || editPromoForm.get('description')?.touched)" class="text-danger">
+                      Description must be between 51 and 250 characters.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Start Date</label>
-                    <input type="date" class="form-control" formControlName="startDate">
+                    <input type="date" class="form-control" formControlName="startDate" required>
+                    <div *ngIf="editPromoForm.get('startDate')?.invalid && (editPromoForm.get('startDate')?.dirty || editPromoForm.get('startDate')?.touched)" class="text-danger">
+                      Start Date is required.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">End Date</label>
-                    <input type="date" class="form-control" formControlName="endDate">
+                    <input type="date" class="form-control" formControlName="endDate" required>
+                    <div *ngIf="editPromoForm.hasError('invalidDateRange')" class="text-danger">
+                      End Date must be later than Start Date.
+                    </div>
+                    <div *ngIf="editPromoForm.get('endDate')?.invalid && (editPromoForm.get('endDate')?.dirty || editPromoForm.get('endDate')?.touched)" class="text-danger">
+                      End Date is required.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Start Time</label>
-                    <input type="time" class="form-control" formControlName="startTime">
+                    <input type="time" class="form-control" formControlName="startTime" required>
+                    <div *ngIf="editPromoForm.get('startTime')?.invalid && (editPromoForm.get('startTime')?.dirty || editPromoForm.get('startTime')?.touched)" class="text-danger">
+                      Start Time is required.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">End Time</label>
-                    <input type="time" class="form-control" formControlName="endTime">
+                    <input type="time" class="form-control" formControlName="endTime" required>
+                    <div *ngIf="editPromoForm.hasError('invalidTimeRange')" class="text-danger">
+                      End Time must be later than Start Time.
+                    </div>
+                    <div *ngIf="editPromoForm.get('endTime')?.invalid && (editPromoForm.get('endTime')?.dirty || editPromoForm.get('endTime')?.touched)" class="text-danger">
+                      End Time is required.
+                    </div>
                   </div>
                   <input type="hidden" formControlName="promotionId" [value]="promoDetails.promotionId">
-                  <button  (click)="onSubmit(promoDetails.promotionId)" type="submit" class="btn btn-submit mt-4 w-100">Submit</button>
-
+                  <button type="submit" class="btn btn-submit mt-4 w-100" [disabled]="editPromoForm.invalid">Submit</button>
               </div>
             </form>
         </div>

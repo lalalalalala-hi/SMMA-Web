@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { LocationService } from 'src/app/services/location/location.service';
@@ -11,7 +17,7 @@ import { StoreService } from 'src/app/services/store/store.service';
 @Component({
   selector: 'app-add-store',
   templateUrl: './add-store.component.html',
-  styleUrl: './add-store.component.scss',
+  styleUrls: ['./add-store.component.scss'],
 })
 export class AddStoreComponent implements OnInit {
   addStoreForm!: FormGroup;
@@ -49,19 +55,48 @@ export class AddStoreComponent implements OnInit {
       this.locations = res;
     });
 
-    this.addStoreForm = this.fb.group({
-      storeId: [''],
-      name: [''],
-      image: [''],
-      categoryId: [''],
-      floorId: [''],
-      locationId: [''],
-      description: [''],
-      contactNumber: [''],
-      status: [''],
-      openingTime: ['10:00'],
-      closingTime: ['22:00'],
-    });
+    this.addStoreForm = this.fb.group(
+      {
+        storeId: [''],
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(50),
+          ],
+        ],
+        image: ['', Validators.required],
+        categoryId: ['', Validators.required],
+        floorId: ['', Validators.required],
+        locationId: ['', Validators.required],
+        description: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(51),
+            Validators.maxLength(250),
+          ],
+        ],
+        contactNumber: [
+          '',
+          [Validators.required, Validators.pattern(/^01\d{9,10}$/)],
+        ],
+        status: ['', Validators.required],
+        openingTime: ['10:00', Validators.required],
+        closingTime: ['22:00', Validators.required],
+      },
+      { validators: this.timeValidator }
+    );
+  }
+
+  timeValidator(control: AbstractControl): ValidationErrors | null {
+    const openingTime = control.get('openingTime')?.value;
+    const closingTime = control.get('closingTime')?.value;
+    if (openingTime && closingTime && openingTime >= closingTime) {
+      return { invalidTime: true };
+    }
+    return null;
   }
 
   onFileSelected(event: Event): void {

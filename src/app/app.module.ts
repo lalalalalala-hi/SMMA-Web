@@ -19,7 +19,7 @@ import { NgToastModule } from 'ng-angular-popup';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { UserStatisticsComponent } from './components/statistics/user-statistics/user-statistics.component';
 import { RouteStatisticsComponent } from './components/statistics/route-statistics/route-statistics.component';
-import { StorelistStatisticsComponent } from './components/statistics/storelist-statistics/storelist-statistics.component';
+import { StorelistStatisticsComponent } from './components/statistics/store-detail-statistics/store-detail-statistics.component';
 import { StoreStatisticsComponent } from './components/statistics/store-statistics/store-statistics.component';
 import { AddStoreComponent } from './components/management/store/add-store/add-store.component';
 import { EditStoreComponent } from './components/management/store/edit-store/edit-store.component';

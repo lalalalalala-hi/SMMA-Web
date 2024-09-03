@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { LocationService } from 'src/app/services/location/location.service';
@@ -10,9 +16,9 @@ import { StoreService } from 'src/app/services/store/store.service';
 @Component({
   selector: 'app-edit-promo',
   templateUrl: './edit-promo.component.html',
-  styleUrl: './edit-promo.component.scss',
+  styleUrls: ['./edit-promo.component.scss'],
 })
-export class EditPromoComponent {
+export class EditPromoComponent implements OnInit {
   editPromoForm!: FormGroup;
   stores: any[] = [];
   locations: any[] = [];
@@ -54,18 +60,53 @@ export class EditPromoComponent {
       this.locations = res;
     });
 
-    this.editPromoForm = this.fb.group({
-      promotionId: [''],
-      storeId: [''],
-      title: [''],
-      image: [''],
-      description: [''],
-      locationId: [''],
-      startDate: [''],
-      endDate: [''],
-      startTime: [''],
-      endTime: [''],
-    });
+    this.editPromoForm = this.fb.group(
+      {
+        promotionId: [''],
+        storeId: ['', Validators.required],
+        title: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(7),
+            Validators.maxLength(50),
+          ],
+        ],
+        image: [''],
+        description: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(51),
+            Validators.maxLength(159),
+          ],
+        ],
+        locationId: ['', Validators.required],
+        startDate: ['', Validators.required],
+        endDate: ['', Validators.required],
+        startTime: ['10:00', Validators.required],
+        endTime: ['22:00', Validators.required],
+      },
+      { validators: [this.dateRangeValidator, this.timeRangeValidator] }
+    );
+  }
+
+  dateRangeValidator(control: AbstractControl): ValidationErrors | null {
+    const startDate = control.get('startDate')?.value;
+    const endDate = control.get('endDate')?.value;
+    if (startDate && endDate && startDate > endDate) {
+      return { invalidDateRange: true };
+    }
+    return null;
+  }
+
+  timeRangeValidator(control: AbstractControl): ValidationErrors | null {
+    const startTime = control.get('startTime')?.value;
+    const endTime = control.get('endTime')?.value;
+    if (startTime && endTime && startTime >= endTime) {
+      return { invalidTimeRange: true };
+    }
+    return null;
   }
 
   onFileSelected(event: Event): void {
@@ -86,9 +127,6 @@ export class EditPromoComponent {
 
       if (this.selectedFile) {
         formData.append('image', this.selectedFile);
-      }
-
-      if (this.selectedFile) {
         this.imageUploadService.uploadFile(this.selectedFile).subscribe(
           (uploadRes: any) => {
             const filename = uploadRes.filename;
@@ -116,6 +154,24 @@ export class EditPromoComponent {
             this.toast.error({
               detail: 'ERROR',
               summary: 'Image Upload Failed',
+              duration: 5000,
+            });
+          }
+        );
+      } else {
+        this.promo.updatePromo(id, this.editPromoForm.value).subscribe(
+          (res: any) => {
+            this.toast.success({
+              detail: 'SUCCESS',
+              summary: 'Promotion Updated Successfully',
+              duration: 5000,
+            });
+            this.router.navigate(['promo-list']);
+          },
+          (err) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Promotion Update Failed',
               duration: 5000,
             });
           }

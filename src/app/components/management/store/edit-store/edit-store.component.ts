@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { LocationService } from 'src/app/services/location/location.service';
@@ -11,7 +17,7 @@ import { StoreService } from 'src/app/services/store/store.service';
 @Component({
   selector: 'app-edit-store',
   templateUrl: './edit-store.component.html',
-  styleUrl: './edit-store.component.scss',
+  styleUrls: ['./edit-store.component.scss'],
 })
 export class EditStoreComponent implements OnInit {
   editStoreForm!: FormGroup;
@@ -21,7 +27,6 @@ export class EditStoreComponent implements OnInit {
   locations: any[] = [];
   storeDetails: any = {};
   storeId: any;
-  name: any;
   selectedFile: File | null = null;
 
   constructor(
@@ -44,11 +49,11 @@ export class EditStoreComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       const storeId = params['storeId'];
       this.storeId = storeId;
-    });
-
-    this.store.getStoreById(this.storeId).subscribe((res: any) => {
-      const { image, ...rest } = res;
-      this.editStoreForm.patchValue(rest);
+      this.store.getStoreById(this.storeId).subscribe((res: any) => {
+        const { image, ...rest } = res;
+        this.storeDetails = rest;
+        this.editStoreForm.patchValue(rest);
+      });
     });
 
     this.floor.getAllFloors().subscribe((res: any) => {
@@ -63,19 +68,48 @@ export class EditStoreComponent implements OnInit {
       this.locations = res;
     });
 
-    this.editStoreForm = this.fb.group({
-      storeId: [''],
-      name: [''],
-      image: [''],
-      categoryId: [],
-      floorId: [''],
-      locationId: [''],
-      description: [''],
-      contactNumber: [''],
-      status: [''],
-      openingTime: [''],
-      closingTime: [''],
-    });
+    this.editStoreForm = this.fb.group(
+      {
+        storeId: [''],
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(50),
+          ],
+        ],
+        image: ['', Validators.required],
+        categoryId: ['', Validators.required],
+        floorId: ['', Validators.required],
+        locationId: ['', Validators.required],
+        description: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(51),
+            Validators.maxLength(250),
+          ],
+        ],
+        contactNumber: [
+          '',
+          [Validators.required, Validators.pattern(/^01\d{9,10}$/)],
+        ],
+        status: ['', Validators.required],
+        openingTime: ['', Validators.required],
+        closingTime: ['', Validators.required],
+      },
+      { validators: this.timeValidator }
+    );
+  }
+
+  timeValidator(control: AbstractControl): ValidationErrors | null {
+    const openingTime = control.get('openingTime')?.value;
+    const closingTime = control.get('closingTime')?.value;
+    if (openingTime && closingTime && openingTime >= closingTime) {
+      return { invalidTime: true };
+    }
+    return null;
   }
 
   onFileSelected(event: Event): void {
@@ -106,7 +140,6 @@ export class EditStoreComponent implements OnInit {
 
             this.store.updateStore(id, storeData).subscribe(
               (res: any) => {
-                this.stores.push(res);
                 this.toast.success({
                   detail: 'SUCCESS',
                   summary: 'Store Updated Successfully',
@@ -127,6 +160,24 @@ export class EditStoreComponent implements OnInit {
             this.toast.error({
               detail: 'ERROR',
               summary: 'Image Upload Failed',
+              duration: 5000,
+            });
+          }
+        );
+      } else {
+        this.store.updateStore(id, this.editStoreForm.value).subscribe(
+          (res: any) => {
+            this.toast.success({
+              detail: 'SUCCESS',
+              summary: 'Store Updated Successfully',
+              duration: 5000,
+            });
+            this.router.navigate(['store-list']);
+          },
+          (err) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Store Update Failed',
               duration: 5000,
             });
           }

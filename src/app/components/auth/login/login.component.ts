@@ -48,12 +48,23 @@ export class LoginComponent implements OnInit {
         (res: any) => {
           this.loginForm.reset();
           this.auth.storeToken(res.token);
-          this.toast.success({
-            detail: 'SUCCESS',
-            summary: res.message,
-            duration: 5000,
+          this.auth.getUserRole(res.token).subscribe((role: string) => {
+            if (role === 'admin') {
+              this.toast.success({
+                detail: 'SUCCESS',
+                summary: res.message,
+                duration: 5000,
+              });
+              this.router.navigate(['dashboard']);
+            } else {
+              this.toast.error({
+                detail: 'ERROR',
+                summary: 'Access Denied',
+                duration: 5000,
+              });
+              this.auth.signout();
+            }
           });
-          this.router.navigate(['dashboard']);
         },
         (err) => {
           this.toast.error({

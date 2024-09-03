@@ -1,4 +1,3 @@
-<!-- <app-navbar></app-navbar> -->
 <div class="container-fuild">
   <h1 class="title-text text-center">STORE</h1>
   <div class="row justify-content-center">
@@ -6,44 +5,62 @@
       <div class="card">
         <div class="card-body">
             <h2 class="pb-4">Edit Store Form</h2>
-            <form [formGroup]="editStoreForm">
+            <form [formGroup]="editStoreForm" (ngSubmit)="onSubmit(storeDetails.storeId)">
               <div class="form-group">
                   <div class="mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" formControlName="name">
+                    <input type="text" class="form-control" formControlName="name" minlength="5" maxlength="50" required>
+                    <div *ngIf="editStoreForm.get('name')?.invalid && (editStoreForm.get('name')?.dirty || editStoreForm.get('name')?.touched)" class="text-danger">
+                      Name must be between 5 and 50 characters.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Image</label>
-                    <input class="form-control" type="file" formControlName="image" accept="image/*"  (change)="onFileSelected($event)">
+                    <input class="form-control" type="file" formControlName="image" accept="image/*" (change)="onFileSelected($event)">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Category</label>
                     <select class="form-select" formControlName="categoryId">
-                        <option value="" disabled>Select Category</option>
-                        <option *ngFor="let category of categories" [value]="category.categoryId">{{category.categoryName}}</option>
-                      </select>
+                        <option value="" disabled selected>Select Category</option>
+                        <option *ngFor="let category of categories" [value]="category['categoryId']">{{category['categoryName']}}</option>
+                    </select>
+                    <div *ngIf="editStoreForm.get('categoryId')?.invalid && (editStoreForm.get('categoryId')?.dirty || editStoreForm.get('categoryId')?.touched)" class="text-danger">
+                      Please select a category.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Floor</label>
                     <select class="form-select" formControlName="floorId">
-                        <option value="" disabled>Select Floor</option>
-                        <option *ngFor="let floor of floors" [value]="floor.floorId">{{floor.floorName}}</option>
-                      </select>
+                        <option value="" disabled selected>Select Floor</option>
+                        <option *ngFor="let floor of floors" [value]="floor['floorId']">{{floor['floorName']}}</option>
+                    </select>
+                    <div *ngIf="editStoreForm.get('floorId')?.invalid && (editStoreForm.get('floorId')?.dirty || editStoreForm.get('floorId')?.touched)" class="text-danger">
+                      Please select a floor.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Location</label>
                     <select class="form-select" formControlName="locationId">
-                      <option value="" disabled>Select Location</option>
-                      <option *ngFor="let location of locations" [value]="location.locationId">{{location.locationName}}</option>
+                      <option value="" disabled selected>Select Location</option>
+                      <option *ngFor="let location of locations" [value]="location['locationId']">{{location['locationName']}}</option>
                     </select>
-                </div>
+                    <div *ngIf="editStoreForm.get('locationId')?.invalid && (editStoreForm.get('locationId')?.dirty || editStoreForm.get('locationId')?.touched)" class="text-danger">
+                      Please select a location.
+                    </div>
+                  </div>
                   <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea class="form-control" formControlName="description"></textarea>
+                    <textarea class="form-control" formControlName="description" minlength="51" maxlength="250" required></textarea>
+                    <div *ngIf="editStoreForm.get('description')?.invalid && (editStoreForm.get('description')?.dirty || editStoreForm.get('description')?.touched)" class="text-danger">
+                      Description must be between 51 and 250 characters.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Contact Number</label>
-                    <input type="text" class="form-control" formControlName="contactNumber">
+                    <input type="tel" class="form-control" formControlName="contactNumber" pattern="^01\d{9,10}$" required>
+                    <div *ngIf="editStoreForm.get('contactNumber')?.invalid && (editStoreForm.get('contactNumber')?.dirty || editStoreForm.get('contactNumber')?.touched)" class="text-danger">
+                      Contact number must be 11 to 12 digits and start with 01.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Status</label>
@@ -53,21 +70,27 @@
                       <option value="pending">Pending</option>
                       <option value="empty">Empty</option>
                     </select>
+                    <div *ngIf="editStoreForm.get('status')?.invalid && (editStoreForm.get('status')?.dirty || editStoreForm.get('status')?.touched)" class="text-danger">
+                      Please select a status.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Opening Time</label>
-                    <input type="time" class="form-control" formControlName="openingTime">
+                    <input type="time" class="form-control" formControlName="openingTime" required>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Closing Time</label>
-                    <input type="time" class="form-control" formControlName="closingTime">
+                    <input type="time" class="form-control" formControlName="closingTime" required>
+                    <div *ngIf="editStoreForm.hasError('invalidTime')" class="text-danger">
+                      Closing time must be later than opening time.
+                    </div>
                   </div>
                   <input type="hidden" formControlName="storeId" [value]="storeDetails.storeId">
-                  <button  (click)="onSubmit(storeDetails.storeId)" type="submit" class="btn btn-submit mt-4 w-100">Submit</button>
-
+                  <button type="submit" class="btn btn-submit mt-4 w-100" [disabled]="editStoreForm.invalid">Submit</button>
               </div>
             </form>
         </div>
       </div>
     </div>
+  </div>
 </div>

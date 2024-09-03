@@ -1,57 +1,88 @@
-<!-- <app-navbar></app-navbar> -->
-<div class="container-fuild">
+<div class="container-fluid">
   <h1 class="title-text text-center">PROMOTION</h1>
   <div class="row justify-content-center">
     <div class="col-lg-7">
       <div class="card">
         <div class="card-body">
             <h2 class="pb-4">Add Promotion Form</h2>
-            <form [formGroup]="addPromoForm">
+            <form [formGroup]="addPromoForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                   <div class="mb-3">
                     <label class="form-label">Name</label>
-                    <input type="text" class="form-control" formControlName="title">
+                    <input type="text" class="form-control" formControlName="title" minlength="7" maxlength="50" required>
+                    <div *ngIf="addPromoForm.get('title')?.invalid && (addPromoForm.get('title')?.dirty || addPromoForm.get('title')?.touched)" class="text-danger">
+                      Name must be between 7 and 50 characters.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Image</label>
-                    <input class="form-control" type="file" formControlName="image" accept="image/*"  (change)="onFileSelected($event)">
+                    <input class="form-control" type="file" formControlName="image" accept="image/*"  (change)="onFileSelected($event)" required>
+                    <div *ngIf="addPromoForm.get('image')?.errors?.['required']" class="text-danger">
+                      Image is required.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Store</label>
-                    <select class="form-select" formControlName="storeId">
+                    <select class="form-select" formControlName="storeId" required>
                         <option value="" disabled selected>Select Store</option>
-                        <option *ngFor="let store of stores" value="{{store.storeId}}">{{store.name}}</option>
+                        <option *ngFor="let store of stores" [value]="store.storeId">{{store.name}}</option>
                     </select>
+                    <div *ngIf="addPromoForm.get('storeId')?.invalid && (addPromoForm.get('storeId')?.dirty || addPromoForm.get('storeId')?.touched)" class="text-danger">
+                      Please select a store.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Location</label>
-                    <select class="form-select" formControlName="locationId">
+                    <select class="form-select" formControlName="locationId" required>
                       <option value="" disabled selected>Select Location</option>
-                      <option *ngFor="let location of locations" value="{{location.locationId}}">{{location.locationName}}</option>
+                      <option *ngFor="let location of locations" [value]="location.locationId">{{location.locationName}}</option>
                     </select>
+                    <div *ngIf="addPromoForm.get('locationId')?.invalid && (addPromoForm.get('locationId')?.dirty || addPromoForm.get('locationId')?.touched)" class="text-danger">
+                      Please select a location.
+                    </div>
                 </div>
                   <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <textarea class="form-control" formControlName="description"></textarea>
+                    <textarea class="form-control" formControlName="description" minlength="51" maxlength="250" required></textarea>
+                    <div *ngIf="addPromoForm.get('description')?.invalid && (addPromoForm.get('description')?.dirty || addPromoForm.get('description')?.touched)" class="text-danger">
+                      Description must be between 51 and 250 characters.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Start Date</label>
-                    <input type="date" class="form-control" formControlName="startDate">
+                    <input type="date" class="form-control" formControlName="startDate" required>
+                    <div *ngIf="addPromoForm.get('startDate')?.invalid && (addPromoForm.get('startDate')?.dirty || addPromoForm.get('startDate')?.touched)" class="text-danger">
+                      Start Date is required.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">End Date</label>
-                    <input type="date" class="form-control" formControlName="endDate">
+                    <input type="date" class="form-control" formControlName="endDate" required>
+                    <div *ngIf="addPromoForm.hasError('invalidDateRange')" class="text-danger">
+                      End Date must be later than Start Date.
+                    </div>
+                    <div *ngIf="addPromoForm.get('endDate')?.invalid && (addPromoForm.get('endDate')?.dirty || addPromoForm.get('endDate')?.touched)" class="text-danger">
+                      End Date is required.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Start Time</label>
-                    <input type="time" class="form-control" formControlName="startTime">
+                    <input type="time" class="form-control" formControlName="startTime" required>
+                    <div *ngIf="addPromoForm.get('startTime')?.invalid && (addPromoForm.get('startTime')?.dirty || addPromoForm.get('startTime')?.touched)" class="text-danger">
+                      Start Time is required.
+                    </div>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">End Time</label>
-                    <input type="time" class="form-control" formControlName="endTime">
+                    <input type="time" class="form-control" formControlName="endTime" required>
+                    <div *ngIf="addPromoForm.hasError('invalidTimeRange')" class="text-danger">
+                      End Time must be later than Start Time.
+                    </div>
+                    <div *ngIf="addPromoForm.get('endTime')?.invalid && (addPromoForm.get('endTime')?.dirty || addPromoForm.get('endTime')?.touched)" class="text-danger">
+                      End Time is required.
+                    </div>
                   </div>
-                  <button  (click)="onSubmit()" type="submit" class="btn btn-submit mt-4 w-100">Submit</button>
-
+                  <button type="submit" class="btn btn-submit mt-4 w-100" [disabled]="addPromoForm.invalid">Submit</button>
               </div>
             </form>
         </div>

@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { LocationService } from 'src/app/services/location/location.service';
@@ -10,9 +16,9 @@ import { StoreService } from 'src/app/services/store/store.service';
 @Component({
   selector: 'app-add-promo',
   templateUrl: './add-promo.component.html',
-  styleUrl: './add-promo.component.scss',
+  styleUrls: ['./add-promo.component.scss'],
 })
-export class AddPromoComponent {
+export class AddPromoComponent implements OnInit {
   addPromoForm!: FormGroup;
   stores: any[] = [];
   locations: any[] = [];
@@ -41,18 +47,39 @@ export class AddPromoComponent {
       this.locations = res;
     });
 
-    this.addPromoForm = this.fb.group({
-      promotionId: [''],
-      storeId: [''],
-      title: [''],
-      image: [''],
-      description: [''],
-      locationId: [''],
-      startDate: [''],
-      endDate: [''],
-      startTime: ['10:00'],
-      endTime: ['22:00'],
-    });
+    this.addPromoForm = this.fb.group(
+      {
+        promotionId: [''],
+        storeId: ['', Validators.required],
+        title: ['', Validators.required],
+        image: ['', Validators.required],
+        description: ['', Validators.required],
+        locationId: ['', Validators.required],
+        startDate: ['', Validators.required],
+        endDate: ['', Validators.required],
+        startTime: ['10:00', Validators.required],
+        endTime: ['22:00', Validators.required],
+      },
+      { validators: [this.dateRangeValidator, this.timeRangeValidator] }
+    );
+  }
+
+  dateRangeValidator(control: AbstractControl): ValidationErrors | null {
+    const startDate = control.get('startDate')?.value;
+    const endDate = control.get('endDate')?.value;
+    if (startDate && endDate && startDate > endDate) {
+      return { invalidDateRange: true };
+    }
+    return null;
+  }
+
+  timeRangeValidator(control: AbstractControl): ValidationErrors | null {
+    const startTime = control.get('startTime')?.value;
+    const endTime = control.get('endTime')?.value;
+    if (startTime && endTime && startTime >= endTime) {
+      return { invalidTimeRange: true };
+    }
+    return null;
   }
 
   onFileSelected(event: Event): void {
@@ -93,6 +120,26 @@ export class AddPromoComponent {
             this.toast.error({
               detail: 'ERROR',
               summary: 'Image Upload Failed',
+              duration: 5000,
+            });
+          }
+        );
+      } else {
+        const promoData = { ...this.addPromoForm.value };
+        this.promo.addPromo(promoData).subscribe(
+          (res: any) => {
+            this.addPromoForm.reset();
+            this.toast.success({
+              detail: 'SUCCESS',
+              summary: 'Promotion Added Successfully',
+              duration: 5000,
+            });
+            this.router.navigate(['promo-list']);
+          },
+          (err) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Promotion Add Failed',
               duration: 5000,
             });
           }

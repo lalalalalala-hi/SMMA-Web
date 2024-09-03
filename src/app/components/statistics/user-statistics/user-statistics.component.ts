@@ -9,6 +9,8 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class UserStatisticsComponent implements OnInit {
   users: any[] = [];
+  dailyActiveUsers: number = 0;
+  weeklyActiveUsers: number = 0;
   title = 'ng-chart';
   doughnutInfo: any = [];
   lineInfo: any = [];
@@ -22,9 +24,9 @@ export class UserStatisticsComponent implements OnInit {
   initialize() {
     this.user.getAllUsers().subscribe((res: any) => {
       this.users = res;
-      const maleCOunt = res.filter((u: any) => u.gender === 'Male').length;
+      const maleCount = res.filter((u: any) => u.gender === 'Male').length;
       const femaleCount = res.filter((u: any) => u.gender === 'Female').length;
-      this.doughnutChart([femaleCount, maleCOunt]);
+      this.doughnutChart([femaleCount, maleCount]);
 
       const age1 = res.filter((u: any) => u.age >= 1 && u.age <= 10).length;
       const age2 = res.filter((u: any) => u.age >= 11 && u.age <= 20).length;
@@ -36,10 +38,17 @@ export class UserStatisticsComponent implements OnInit {
       const age8 = res.filter((u: any) => u.age >= 71 && u.age <= 80).length;
       this.lineChart([age1, age2, age3, age4, age5, age6, age7, age8]);
     });
+
+    this.user.getDailyActiveUsers().subscribe((res: any) => {
+      this.dailyActiveUsers = res.length;
+    });
+
+    this.user.getWeeklyActiveUsers().subscribe((res: any) => {
+      this.weeklyActiveUsers = res.length;
+    });
   }
 
-  // calculate number of user
-  getNumberOfUser() {
+  getNumberOfUsers() {
     return this.users.length;
   }
 

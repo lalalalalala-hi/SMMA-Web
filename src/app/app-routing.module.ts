@@ -6,7 +6,7 @@ import { DashboardComponent } from './components/statistics/dashboard/dashboard.
 import { AuthGuard } from './guards/auth.guard';
 import { UserStatisticsComponent } from './components/statistics/user-statistics/user-statistics.component';
 import { RouteStatisticsComponent } from './components/statistics/route-statistics/route-statistics.component';
-import { StorelistStatisticsComponent } from './components/statistics/storelist-statistics/storelist-statistics.component';
+import { StorelistStatisticsComponent } from './components/statistics/store-detail-statistics/store-detail-statistics.component';
 import { StoreStatisticsComponent } from './components/statistics/store-statistics/store-statistics.component';
 import { StoreListComponent } from './components/management/store/store-list/store-list.component';
 import { AddStoreComponent } from './components/management/store/add-store/add-store.component';
@@ -47,7 +47,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'storelist-statistics',
+    path: 'store-detail-statistics',
     component: StorelistStatisticsComponent,
     canActivate: [AuthGuard],
   },

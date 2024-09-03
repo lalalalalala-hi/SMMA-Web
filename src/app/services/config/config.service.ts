@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ConfigService {
-  public readonly baseUrl: string = 'http://10.202.99.225:5184/api';
+  public readonly baseUrl: string = 'http://192.168.1.115:5184/api';
 
   constructor() {}
 }
