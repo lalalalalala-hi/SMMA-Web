@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
       this.auth.login(this.loginForm.value).subscribe(
         (res: any) => {
           this.loginForm.reset();
