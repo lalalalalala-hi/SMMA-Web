@@ -39,7 +39,6 @@ export class StoreStatisticsComponent implements OnInit {
     this.category.getAllCategories().subscribe(
       (res: any) => {
         this.categories = res;
-        console.log(this.categories);
       },
       (err) => {
         console.log(err);
