@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # SMMA-Web
 =======
 # Smma
